@@ -1,0 +1,17 @@
+.containerMembers {
+    display: flex;
+    font-family: montserrat;
+    margin-top: 15px;
+    gap: 12px;
+}
+
+.img {
+    object-fit: cover;
+    width: 100% !important;
+    height: 100%;
+}
+
+.membersTitle {
+    font-family: var(--font-poppins);
+    font-weight: 800;
+}
