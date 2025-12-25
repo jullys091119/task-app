@@ -1,8 +1,11 @@
 .containerMembers {
-    display: flex;
-    font-family: montserrat;
-    margin-top: 15px;
     gap: 12px;
+    margin-top: 15px;
+    font-family: montserrat;
+    display: flex;
+    max-width: 302px;
+    overflow: scroll;
+    cursor: pointer
 }
 
 .img {

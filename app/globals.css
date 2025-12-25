@@ -37,3 +37,9 @@ body {
 .container-nextTask {
   margin-top: 20px;
 }
+
+.container-navigation {
+      max-width: 325px;
+    display: flex;
+    justify-content: center
+}
