@@ -1,0 +1,19 @@
+.containerNav {
+    background-color: #25232f;
+    border: 1px solid;
+    border-radius: 20px;
+    max-width: 235px;
+    display: flex;
+    gap: 9px;
+    justify-content: center;
+    padding: 8px;
+}
+
+.button {
+    background-color: #23212d !important;
+    border: none;
+}
+
+.avatar {
+    background-color: #23212d;
+}

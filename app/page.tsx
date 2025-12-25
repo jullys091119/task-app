@@ -1,7 +1,8 @@
 import { HeaderApp } from "./components/Header/HeaderApp"
 import {DayOverView} from "./components/DayOverView/DayOverView"
 import {Members} from "./components/Members/Members"
-import {NewTask} from "./components/NewTask/NewTask"
+import {NewTask} from "./components/NewTask/NewTask";
+import {NavigationMenuBar} from "./components/NavigationMenuBar/NavigationMenuBar"
 
 export default function Home() {
   return (
@@ -14,6 +15,9 @@ export default function Home() {
         </div>
         <div>
           <NewTask/>
+        <div className="contaier-navigation">
+        <NavigationMenuBar/>
+        </div>
         </div>
       </main>
     </div>
