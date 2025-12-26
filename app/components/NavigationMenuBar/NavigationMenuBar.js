@@ -2,9 +2,16 @@
 import styles from "./NavigationMenuBar.module.css"
 import { Button, Avatar } from "@heroui/react"
 import { House, CalendarDays, SquarePen, User } from "lucide-react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export const NavigationMenuBar = () => {
+    const path = usePathname()
+    const [activeId, setActiveId] = useState(null);
+
+    const handleOpen = (id) => {
+        setActiveId(id)
+    }
 
     const BtnGoToTasks = () => {
         const buttons = [
@@ -14,20 +21,25 @@ export const NavigationMenuBar = () => {
             { id: 4, icon: <User /> }
         ]
         return (
-            buttons.map(btn => (
-               <Avatar className={styles.avatar}>
-                    <Button key={btn.id} className={styles.button} >
+            buttons.map((btn, i) => (
+
+                <Avatar key={i}>
+                    <Button key={btn.id} className={`${styles.button} ${activeId === btn.id ? styles.activeButton : styles.button}`} onClick={() => handleOpen(btn.id)} >
                         {btn.icon}
                     </Button>
-               </Avatar>
+                </Avatar>
             ))
         )
     }
+    
 
+    useEffect(()=> {
+        path === "/"?setActiveId(1):null
+    },[path])
 
     return (
         <div className={styles.containerNav}>
-           <BtnGoToTasks/>
+            <BtnGoToTasks />
         </div>
 
     )

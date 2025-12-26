@@ -3,9 +3,18 @@
     margin-top: 15px;
     font-family: montserrat;
     display: flex;
-    max-width: 302px;
+    max-width: 275px;
     overflow: scroll;
     cursor: pointer
+}
+
+.avatarMembers {
+    background-color: #866ff7;
+}
+
+.containerAvatarMembers {
+    display: flex;
+    justify-content: space-between;
 }
 
 .img {
@@ -14,7 +23,12 @@
     height: 100%;
 }
 
+.iconPlus {
+    font-size: 10px;
+}
+
 .membersTitle {
     font-family: var(--font-poppins);
     font-weight: 800;
 }
+

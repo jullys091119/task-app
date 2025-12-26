@@ -39,7 +39,12 @@ body {
 }
 
 .container-navigation {
-      max-width: 325px;
+    max-width: 270px;
     display: flex;
-    justify-content: center
+    justify-content: flex-end
+}
+
+.form-avatar-container {
+  display: flex;
+  align-items: center;
 }
