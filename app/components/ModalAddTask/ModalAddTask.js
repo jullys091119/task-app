@@ -4,18 +4,18 @@ import { Button, Modal } from "@heroui/react";
 import { FormModal } from "../FormModal/FormModal"
 import { useContext } from "react";
 import { AppContext } from "../../AppContext"
-import  {GET} from "../../api/members/route"
+import { setMembers } from "@/app/fetch";
+
 
 
 export const ModalAddTask = ({ isOpen, close }) => {
   const { number, name, imgRandom } = useContext(AppContext)
 
- const getMembers = () => {
-   GET()
-};
 
-getMembers();
-
+   const handleGetMembers = () => {
+     setMembers()
+     close()
+   }
 
 
   return (
@@ -32,7 +32,7 @@ getMembers();
               <Modal.Body>
               </Modal.Body>
               <Modal.Footer>
-                <Button className="w-full" slot="close" onClick={getMembers()}>
+                <Button className="w-full" slot="close" onClick={()=>handleGetMembers()}>
                   Agregar Miembro
                 </Button>
               </Modal.Footer>
