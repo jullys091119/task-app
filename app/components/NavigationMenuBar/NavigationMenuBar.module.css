@@ -5,7 +5,7 @@
     max-width: 235px;
     display: flex;
     gap: 9px;
-    justify-content: center;
+    justify-content: flex-end;
     padding: 8px;
 }
 
@@ -14,6 +14,10 @@
     border: none;
 }
 
-.avatar {
-    background-color: #23212d;
+.activeButton {
+    background-color:  #866ff7 !important;
 }
+
+/* .avatar {
+    background-color: #3f29ac !important;
+} */

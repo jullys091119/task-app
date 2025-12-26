@@ -7,9 +7,10 @@ import { setImageData } from "@/app/fetch";
 import { Avatar, Button } from "@heroui/react";
 import { ChevronRight } from "lucide-react";
 
+
 export const NewTask = () => {
     const [members, setMembers] = useState([])
-
+    
     useEffect(() => {
 
         const loadImageData = async () => {
@@ -19,9 +20,9 @@ export const NewTask = () => {
         loadImageData()
     }, [])
 
-    const ShowAvatar = (img) => {
+    const ShowAvatar = (img,i) => {
         return (
-            <Avatar className={styles.avatar}>
+            <Avatar className={styles.avatar}  key={i}>
                 <Image
                     src={img.img}
                     width={90}

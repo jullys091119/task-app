@@ -1,0 +1,46 @@
+[
+    {
+        "id": 1,
+        "name": "Ana Lopez",
+        "phone": "669234532",
+        "image": "https://images.unsplash.com/photo-1766282088801-cad8cbae5ed5?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+        "id": 2,
+        "name": "Mason C",
+        "phone": "669234532",
+        "image": "https://images.unsplash.com/photo-1627901325936-730c51052f0c?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+        "id": 3,
+        "name": "Humberto Haramburo",
+        "phone": "669234532",
+        "image": "https://images.unsplash.com/photo-1704585271235-f19b6fce9269?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+        "id": 4,
+        "name": "José Mario Castro",
+        "phone": "669234532",
+        "image": "https://images.unsplash.com/photo-1761167366040-aaf7e9a4b36b?q=80&w=707&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+        "id": 5,
+        "name": "Irlanda Gabriela Beltrán",
+        "phone": "669234532",
+        "image": "https://images.unsplash.com/photo-1564167706513-020b270b2714?q=80&w=1247&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+        "id": 6,
+        "name": "Irlanda Gabriela Beltrán",
+        "phone": "669234532",
+        "image": "https://images.unsplash.com/photo-1564167706513-020b270b2714?q=80&w=1247&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+        "id": 7,
+        "name": "Irlanda Gabriela Beltrán",
+        "phone": "669234532",
+        "image": "https://images.unsplash.com/photo-1564167706513-020b270b2714?q=80&w=1247&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    }
+
+
+]

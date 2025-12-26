@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Montserrat } from 'next/font/google';
 import { Poppins } from 'next/font/google';
+import { AppProvider } from "./AppContext"; // importa el Provider
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,7 +47,9 @@ export default function RootLayout({
         ${geistMono.variable}  antialiased 
         ${montserrat.className}`}
       >
-        {children}
+         <AppProvider>
+          {children}
+        </AppProvider>
       </body>
     </html>
   );

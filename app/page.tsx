@@ -15,7 +15,7 @@ export default function Home() {
         </div>
         <div>
           <NewTask/>
-        <div className="contaier-navigation">
+        <div className="container-navigation">
         <NavigationMenuBar/>
         </div>
         </div>
