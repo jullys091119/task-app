@@ -6,7 +6,7 @@ import Image from "next/image";
 import { setImageData } from "@/app/fetch";
 import { Avatar, Button } from "@heroui/react";
 import { ChevronRight } from "lucide-react";
-
+    
 
 export const NewTask = () => {
     const [members, setMembers] = useState([])

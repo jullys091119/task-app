@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import { Avatar } from "@heroui/react"
 import styles from "./Members.module.css";
-import { setImageData } from "./../../fetch";
+import { setImageData, getMembers } from "./../../fetch";
 import Image from "next/image";
 import { Plus } from "lucide-react";
 import { ModalAddTask } from "../ModalAddTask/ModalAddTask"
@@ -15,13 +15,14 @@ export const Members = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      const data = await setImageData();
+      const data = await getMembers();
       setMembers(data)
     }
     loadData()
   }, [])
 
   const ShowAvatar = (img) => {
+    console.log(img, "imgavatar")
     return (
       <Avatar>
         <Image
@@ -54,7 +55,7 @@ export const Members = () => {
         </div>
         <div className={styles.containerMembers}>
           {
-            members.map((item, i) => (<ShowAvatar img={item.image} key={i} />))
+            members.map((item, i) => (<ShowAvatar img={item.avatar} key={i} />))
           }
         </div>
 
