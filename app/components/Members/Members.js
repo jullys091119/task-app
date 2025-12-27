@@ -22,7 +22,6 @@ export const Members = () => {
   }, [])
 
   const ShowAvatar = (img) => {
-    console.log(img, "imgavatar")
     return (
       <Avatar>
         <Image
