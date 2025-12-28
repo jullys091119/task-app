@@ -6,6 +6,7 @@ import Image from "next/image";
 import { getMembers, getProjects, setImageData } from "@/app/fetch";
 import { Avatar, Button } from "@heroui/react";
 import { Car, ChevronRight, ChevronLeft } from "lucide-react";
+import { TooltipTask } from "../TooltipTask/TooltipTask"
 
 
 export const NewTask = () => {
@@ -14,6 +15,7 @@ export const NewTask = () => {
   const [chevronLeft, setChevronLeft] = useState(false)
   const [count, setCount] = useState(0)
   const [avatarsMembers, setAvatarsMembers] = useState([])
+  const [tooltip, setTooltip] = useState(false);
 
   useEffect(() => {
     const loadImageData = async () => {
@@ -30,13 +32,9 @@ export const NewTask = () => {
   }, [count])
 
 
-  const ShowAvatar = ({ img, i, asignados }) => {
-
+  const ShowAvatar = ({ img, i }) => {
     return (
       <Avatar className={styles.avatar} key={i}>
-        {
-          /*   console.log(asignado, "asignado") */
-        }
         <Image
           src={img}
           width={90}
@@ -73,60 +71,61 @@ export const NewTask = () => {
   }
 
 
-
+  const handleTooltip = () => {
+    setTooltip(!tooltip)
+  }
+  
   const CardProjects = () => {
-
-
     return (
-      <div>
-        {
-          count < project.length && (
-            <div className={styles.wrapperContainerImages}>
+      <>
+        <div>
+          {
+            count < project.length && (
+              <div className={styles.wrapperContainerImages} onClick={handleTooltip} >
+              {<TooltipTask  isOpen={tooltip} description={project[count].descripcion}/> }
 
-              <div className={styles.containerImage}>
-                <div className={styles.wrapperContent}>
-                  <>
-                    <p className={styles.title}>{project[count]?.nombre}</p>
-                    <p className={styles.subtitle}>Dashboard UI</p>
-                    <p className={styles.team}>Equipo: {project[count]?.subtitulo}</p>
-                  </>
-                  <Image
-                    src={imagen}
-                    width={90}
-                    height={90}
-                    alt="imagen"
-                    className={styles.imageTask}
-                  />
+                <div className={styles.containerImage}>
+                  <div className={styles.wrapperContent}>
+                    <>
+                      <p className={styles.title}>{project[count]?.nombre}</p>
+                      <p className={styles.subtitle}>Dashboard UI</p>
+                      <p className={styles.team}>Equipo: {project[count]?.subtitulo}</p>
+                    </>
+                    <Image
+                      src={imagen}
+                      width={90}
+                      height={90}
+                      alt="imagen"
+                      className={styles.imageTask}
+                    />
+                  </div>
+                  <div className={styles.members}>
+                    {
+                      avatarsMembers
+                        .filter(member =>
+                          project[count]?.asignados.includes(member.id)
+                        )
+                        .slice(0, 3)
+
+
+                        .map(member => (
+                          <ShowAvatar
+                            key={`${project[count].id}-${member.id}`}
+                            img={member.avatar}
+                          />
+                        ))
+                    }
+
+                    {chevronLeft ? <BtnBackToTasks /> : <BtnGoToTasks />}
+                  </div>
                 </div>
-                <div className={styles.members}>
-                  {
-                    avatarsMembers
-                      .filter(member =>
-                        project[count]?.asignados.includes(member.id)
-                      )
-                      .slice(0, 3)
-                      .map(member => (
-                        <ShowAvatar
-                           key={`${project[count].id}-${member.id}`}
-                          img={member.avatar}
-                        />
-                      ))
-                  }
-
-                  {chevronLeft ? <BtnBackToTasks /> : <BtnGoToTasks />}
-                </div>
-
-
-              </div>
-
-              <div className={styles.one}></div>
-              <div className={styles.two}></div>
-
-            </div>)
-        }
-
-
-      </div>
+                <div className={styles.one}></div>
+                <div className={styles.two}></div>
+              </div>)
+          }
+        </div>
+      </>
+      
     )
   }
 

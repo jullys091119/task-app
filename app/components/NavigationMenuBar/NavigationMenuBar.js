@@ -4,13 +4,22 @@ import { Button, Avatar } from "@heroui/react"
 import { House, CalendarDays, SquarePen, User } from "lucide-react"
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export const NavigationMenuBar = () => {
+    const router = useRouter();
     const path = usePathname()
     const [activeId, setActiveId] = useState(null);
 
     const handleOpen = (id) => {
         setActiveId(id)
+        switch (id) {
+            case 1: router.push("/")
+                break;
+            case 2: router.push("/CalendarTask");
+                break;
+        }
+
     }
 
     const BtnGoToTasks = () => {
@@ -31,11 +40,11 @@ export const NavigationMenuBar = () => {
             ))
         )
     }
-    
 
-    useEffect(()=> {
-        path === "/"?setActiveId(1):null
-    },[path])
+
+    useEffect(() => {
+        path === "/" ? setActiveId(1) : null
+    }, [path])
 
     return (
         <div className={styles.containerNav}>

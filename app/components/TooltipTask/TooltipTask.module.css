@@ -1,0 +1,6 @@
+.tooltipColor {
+    background-color: #25232f !important;
+    max-width: 275px;
+    color: white;
+    font-family: var(--font--poppins);
+}

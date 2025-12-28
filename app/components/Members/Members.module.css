@@ -3,7 +3,7 @@
     margin-top: 15px;
     font-family: montserrat;
     display: flex;
-    max-width: 275px;
+    max-width: 390px;
     overflow: scroll;
     cursor: pointer
 }
@@ -15,7 +15,7 @@
 .containerAvatarMembers {
     display: flex;
     justify-content: space-between;
-    max-width: 270px;
+    max-width: 390px;
 }
 
 .img {
