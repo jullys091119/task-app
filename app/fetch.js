@@ -22,6 +22,13 @@ export const getProjects = async () => {
    return data
 }
 
+export const getTasks = async () => {
+   const response = await fetch("/api/tasks");
+   const data = await response.json();
+   return data
+}
+
+
 export const setMembers = async () => {
   const response = await fetch("/api/members", {
     method: "POST",

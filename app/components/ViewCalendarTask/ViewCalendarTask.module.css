@@ -1,0 +1,46 @@
+.containerTasks {
+    min-height: 100vh;
+    max-width: 390px;
+    overflow: hidden;
+    margin: 30px;
+}
+
+.hours {
+    display: flex;
+   justify-content: space-around;
+    
+}
+
+.cardTask {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.displayTime,.endTime{ 
+    font-size: 13px;
+    font-weight: 600;
+    font-size: 12px;
+}
+.containerCards {
+ margin: 10px 0;
+}
+.containerHours {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.eschedule {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 12px !important;
+}
+.assignedTo {
+    display: flex;
+    flex-direction: column;
+}
+.containerAvatar {
+    display: flex;
+    gap: 10px
+}

@@ -2,7 +2,7 @@
     background-color: #25232f;
     border: 1px solid;
     border-radius: 20px;
-    max-width: 235px;
+    max-width: 390px;
     display: flex;
     gap: 9px;
     justify-content: flex-end;
@@ -18,6 +18,3 @@
     background-color:  #866ff7 !important;
 }
 
-/* .avatar {
-    background-color: #3f29ac !important;
-} */

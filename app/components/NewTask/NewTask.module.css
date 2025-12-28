@@ -3,13 +3,14 @@
     background-color: #857ce9;
     border-radius: 30px;
     outline: none;
-    max-width: 270px;
+    max-width: 390px;
     height: 210px;
     margin-top: 20px;
     padding: 15px;
     position: relative;
     display: flex;
     justify-content: space-between;
+    position: relative;
 }
 
 .one {
