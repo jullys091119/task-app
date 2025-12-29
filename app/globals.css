@@ -41,7 +41,7 @@ body {
 }
 
 .container-navigation {
-  max-width: 270px;
+  max-width: 390px;
   display: flex;
   justify-content: flex-end
 }

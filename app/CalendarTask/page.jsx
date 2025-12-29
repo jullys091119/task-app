@@ -4,6 +4,7 @@ import { ChevronLeft, EllipsisVertical } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { getTasks } from ".././fetch"
 import { ViewCalendarTask } from "../components/ViewCalendarTask/ViewCalendarTask";
+import {MenuNewTask} from "../components/MenuNewTask/MenuNewTask"
 
 export default function SemanaHorizontalScroll() {
   const [tasks, setTasks] = useState([])
@@ -78,7 +79,7 @@ export default function SemanaHorizontalScroll() {
         <header className="header-calendar">
           <ChevronLeft strokeWidth={0.5} size={20} onClick={() => router.push("/")} />
           <div>Calendar</div>
-          <EllipsisVertical strokeWidth={0.5} size={20} />
+          <MenuNewTask/>
         </header>
       </div>
 
@@ -97,7 +98,7 @@ export default function SemanaHorizontalScroll() {
                       <div
                         className={
                           selectedDate === d.fechaISO
-                            ? "color-current-day"   // Día seleccionado (morado)
+                            ? "color-current-day"   
                             : d.fechaISO === hoyISO
                               ? "bg-purple-200 text-danger-800 rounded-full w-12 h-12 flex items-center justify-center" 
                               : "day-week"

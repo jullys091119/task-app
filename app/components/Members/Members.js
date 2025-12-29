@@ -5,7 +5,7 @@ import styles from "./Members.module.css";
 import { setImageData, getMembers } from "./../../fetch";
 import Image from "next/image";
 import { Plus } from "lucide-react";
-import { ModalAddTask } from "../ModalAddTask/ModalAddTask"
+import {FormAddMember} from "../FormAddMember/FormAddMemeber"
 
 
 export const Members = () => {
@@ -38,12 +38,11 @@ export const Members = () => {
 
   const handleModalNewMember = () => {
     setModalVisible(true)
-    console.log(modalVisible)
   }
 
   return (
     <div>
-      {modalVisible && <ModalAddTask isOpen={modalVisible}  close={() => setModalVisible(false)} />}
+      {modalVisible && <FormAddMember isOpen={modalVisible}  close={() => setModalVisible(false)} />}
 
       <div className="container-members">
         <div className={styles.containerAvatarMembers}>
