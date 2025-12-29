@@ -18,38 +18,43 @@ export const getMembers = async () => {
 
 export const getProjects = async () => {
   const response = await fetch("/api/projects");
-   const data = await response.json();
-   return data
+  const data = await response.json();
+  return data
 }
 
 export const getTasks = async () => {
-   const response = await fetch("/api/tasks");
-   const data = await response.json();
-   return data
+  const response = await fetch("/api/tasks");
+  const data = await response.json();
+  return data
 }
 
 
-export const setMembers = async () => {
+export const setMembers = async (name, role, avatar) => {
+  function generarIdNumerico() {
+    const timestamp = Date.now();
+    const random = Math.floor(Math.random() * 1000000);
+    return Number(`${timestamp}${random}`);
+  }
+
+  let id = generarIdNumerico()
   const response = await fetch("/api/members", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      id: 10,
-      name: "Marcos Zarate Sanchez",
-      phone: "669234532",
-      image: "https://images.unsplash.com/photo-1564167706513-020b270b2714",
+      id: id,
+      nombre: name,
+      rol: role,
+      avatar: avatar,
     }),
   });
 
-  const text = await response.text();  // Usamos .text() para ver el contenido crudo
-  console.log("Response Text:", text);  // Esto nos ayudará a ver si es HTML
+  const text = await response.text();
 
-  // Verifica si la respuesta es JSON antes de hacer parse
   if (response.ok) {
     try {
-      const result = JSON.parse(text);  // Intentamos parsear el texto manualmente
+      const result = JSON.parse(text);
       console.log("Success:", result);
       return result;
     } catch (e) {
@@ -60,3 +65,33 @@ export const setMembers = async () => {
   }
 };
 
+
+export const setNewProject = async (name, subtitle, description, asignados) => {
+  try {
+    const response = await fetch("/api/projects", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nombre: name,
+        subtitulo: subtitle,
+        descripcion: description,
+        asignados: asignados,
+      }),
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log("Proyecto creado con éxito:", result);
+      return result; // ← retornamos los datos del nuevo proyecto
+    } else {
+      const errorData = await response.json().catch(() => ({}));
+      console.error("Error al crear proyecto:", response.status, errorData);
+      throw new Error(errorData.message || "Error al crear el proyecto");
+    }
+  } catch (error) {
+    console.error("Error de red o inesperado:", error);
+    throw error; // o retorna null, según lo que necesites
+  }
+};

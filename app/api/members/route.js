@@ -21,15 +21,15 @@ export async function GET() {
 
 export async function POST(request) {
   const newMember = await request.json();
-  // Validación  mínima
-  if (!newMember.name || !newMember.phone) {
+  console.log(newMember, "new member")
+  if (!newMember.nombre || !newMember.rol || !newMember.avatar) {
     return NextResponse.json(
-      { error: "Name and phone are required" },
+      { error: "name and rol are required" },
       { status: 400 }
     );
   }
-  team[""]  
   
+  team[""]  
   team.push(newMember);
   
   return NextResponse.json(

@@ -1,7 +1,6 @@
 
 "use client";
 import { Button, Modal } from "@heroui/react";
-import { FormModal } from "../FormModal/FormModal"
 import { useContext } from "react";
 import { AppContext } from "../../AppContext"
 import { setMembers } from "@/app/fetch";
@@ -12,10 +11,7 @@ export const ModalAddTask = ({ isOpen, close }) => {
   const { number, name, imgRandom } = useContext(AppContext)
 
 
-   const handleGetMembers = () => {
-     setMembers()
-     close()
-   }
+   
 
 
   return (
