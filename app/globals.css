@@ -20,6 +20,29 @@
   }
 }
 
+@layer components {
+  .react-aria-Select {
+    @apply relative inline-flex flex-col gap-1;
+  }
+
+  .react-aria-Label {
+    @apply text-sm font-medium;
+  }
+
+  .react-aria-Button {
+    @apply inline-flex items-center justify-between rounded-md border px-3 py-2 text-sm;
+  }
+
+  .react-aria-Popover {
+    @apply z-50 rounded-md border bg-background p-1 shadow-md;
+  }
+
+  .react-aria-ListBoxItem {
+    @apply cursor-pointer rounded-sm px-2 py-1.5 text-sm focus:bg-accent;
+  }
+}
+
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -80,12 +103,19 @@ body {
   font-family: var(--var--font--poppins) !important;
   font-weight: 700;
   font-size: 15px !important;
-
 }
+
 .header-calendar {
   display: flex;
   justify-content: space-between;
   margin: 14px 0;
   padding: 20px;
+
+}
+
+.surface-container .checkbox-group {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
 
 }

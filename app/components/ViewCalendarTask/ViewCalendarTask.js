@@ -4,7 +4,6 @@ import { Clock10 } from "lucide-react";
 import Image from "next/image";
 
 export const ViewCalendarTask = ({ data }) => {
-  console.log(data, "data")
   return (
     <div className={styles.containerTasks}>
       <div>

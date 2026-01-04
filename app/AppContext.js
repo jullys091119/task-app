@@ -8,9 +8,13 @@ export const AppProvider = ({ children }) => {
     const [number, setNumber] = useState("")
     const [roleMember, setRoleMember] = useState("")
     const [assignedToProject, setAssignedToProject] = useState([])
-    const [nameEmployed, setNameEmployed]= useState("")
+    const [nameEmployed, setNameEmployed] = useState("")
     const [assignedTeam, setAssignedTeam] = useState("");
     const [descriptionProject, setDescriptionProject] = useState("")
+    const [selected, setSelected] = useState("");
+    const [task, setTask] = useState("")
+    const [descriptionTask, setDescritpionTask] = useState("")
+
 
 
     const avatars = [
@@ -35,22 +39,29 @@ export const AppProvider = ({ children }) => {
 
 
     return (
-        <AppContext.Provider value={{ 
-         name,
-         setName,
-         number,
-         setNumber,
-         imgRandom,
-         roleMember,
-         setRoleMember,
-         assignedToProject,
-         setAssignedToProject,
-         nameEmployed, 
-         setNameEmployed,
-         assignedTeam,
-        setAssignedTeam,
-        descriptionProject, setDescriptionProject
-         }}>
+        <AppContext.Provider value={{
+            name,
+            setName,
+            number,
+            setNumber,
+            imgRandom,
+            roleMember,
+            setRoleMember,
+            assignedToProject,
+            setAssignedToProject,
+            nameEmployed,
+            setNameEmployed,
+            assignedTeam,
+            setAssignedTeam,
+            descriptionProject,
+            setDescriptionProject,
+            selected,
+            setSelected,
+            task,
+            setTask,
+            descriptionTask,
+            setDescritpionTask,
+        }}>
             {children}
         </AppContext.Provider>
     );

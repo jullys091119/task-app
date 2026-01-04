@@ -23,7 +23,7 @@ export function FormAddNewProject({ isOpen, close }) {
 
   } = useContext(AppContext)
 
-  const handleSetProject = () => {
+  const handleSetProject = (op) => {
     setNewProject(nameEmployed, assignedTeam, descriptionProject, assignedToProject),
       setNameEmployed("")
     setAssignedTeam("")

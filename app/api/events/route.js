@@ -1,8 +1,9 @@
 // lib/mockEvents.js
 // lib/mockEvents.js
 
+import { NextResponse } from "next/server";
+
 export const mockEvents = [
-  // Eventos del 27 de Diciembre (el día seleccionado en tu captura)
   {
     id: "1",
     date: "2025-12-27",
@@ -58,7 +59,7 @@ export const mockEvents = [
     category: "planning",
   },
 
-  
+
   {
     id: "5",
     date: "2025-12-26", // Día 26
@@ -96,14 +97,7 @@ export const mockEvents = [
   },
 ];
 
-// Bonus: colores por categoría
-export const categoryColors = {
-  research: "#FF9CEE",
-  meeting: "#FFB46E",
-  review: "#6EDBFF",
-  planning: "#FFD76E",
-  call: "#A78BFA",
-};
+
 
 
 export async function GET() {
@@ -111,4 +105,50 @@ export async function GET() {
     success: true,
     events: mockEvents,
   });
+}
+
+
+
+
+
+export async function POST(request) {
+  const body = await request.json();
+
+  const {
+    date,
+    task,
+    descriptionTask,
+    color
+  } = body;
+
+
+  if (!date || !task || !descriptionTask || !color) {
+    return NextResponse.json(
+      { error: "Datos incompletos" },
+      { status: 400 }
+    );
+  }
+
+
+  const newTask = {
+    id: crypto.randomUUID(),
+    date, // YYYY-MM-DD
+    title: task,
+    descriptionTask,
+    color,
+    type: "task"
+  };
+
+
+  mockEvents.push(newTask);
+
+  return NextResponse.json(
+    {
+      message: "Task added successfully",
+      task: newTask
+    },
+    { status: 201 }
+  );
+
+
 }
