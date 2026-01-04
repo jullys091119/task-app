@@ -22,11 +22,14 @@ export const getProjects = async () => {
   return data
 }
 
-export const getTasks = async () => {
-  const response = await fetch("/api/tasks");
+export const getEvents = async () => {
+  const response = await fetch("/api/events");
   const data = await response.json();
   return data
 }
+
+
+
 
 
 export const setMembers = async (name, role, avatar) => {
@@ -84,7 +87,7 @@ export const setNewProject = async (name, subtitle, description, asignados) => {
     if (response.ok) {
       const result = await response.json();
       console.log("Proyecto creado con éxito:", result);
-      return result; // ← retornamos los datos del nuevo proyecto
+      return result; 
     } else {
       const errorData = await response.json().catch(() => ({}));
       console.error("Error al crear proyecto:", response.status, errorData);
@@ -92,6 +95,38 @@ export const setNewProject = async (name, subtitle, description, asignados) => {
     }
   } catch (error) {
     console.error("Error de red o inesperado:", error);
-    throw error; // o retorna null, según lo que necesites
+    throw error; 
   }
 };
+
+export const setNewTask = async (date,task, descriptionTask,color) => {
+
+  try {
+    const response = await fetch("/api/events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        date,
+        task,
+        descriptionTask,
+        completed: false,
+        color
+      }),
+    })
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log("Tarea creada con éxito:", result);
+      return result; 
+    } else {
+      const errorData = await response.json().catch(() => ({}));
+      console.error("Error al crear la tarea:", response.status, errorData);
+      throw new Error(errorData.message || "Error al crear la tarea ");
+    }
+  } catch (error) {
+    console.error("Error de red o inesperado:", error);
+    throw error; 
+  }
+}

@@ -1,0 +1,16 @@
+.containerCheckbox {
+    display: flex;
+    gap: 7px;
+}
+
+.containerTime {
+    display: flex;
+    gap: 10px;
+}
+
+.checkbox-row {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 12px;
+  align-items: center;
+}

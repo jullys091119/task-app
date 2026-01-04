@@ -2,8 +2,8 @@
 import { Description, Label, ListBox, Select } from "@heroui/react";
 import { useContext } from "react";
 import { AppContext } from "@/app/AppContext";
-import { getMembers, getProjects } from "../../fetch"
-import React, { useState, useEffect } from "react"
+import { getMembers} from "../../fetch"
+import { useState, useEffect } from "react"
 
 export function SelectAssigned() {
   const [roles, setRoles] = useState([])

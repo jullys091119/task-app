@@ -2,9 +2,10 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, EllipsisVertical } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { getTasks } from ".././fetch"
+import { getEvents } from ".././fetch"
 import { ViewCalendarTask } from "../components/ViewCalendarTask/ViewCalendarTask";
 import {MenuNewTask} from "../components/MenuNewTask/MenuNewTask"
+
 
 export default function SemanaHorizontalScroll() {
   const [tasks, setTasks] = useState([])
@@ -24,7 +25,6 @@ export default function SemanaHorizontalScroll() {
     const month = String(fecha.getMonth() + 1).padStart(2, "0");
     const day = String(fecha.getDate()).padStart(2, "0");
     const fechaISO = `${year}-${month}-${day}`;
-
     dias.push({
       dia: fecha.getDate(),
       weekday: fecha.toLocaleDateString("es-ES", { weekday: "short" }).slice(0, 3),
@@ -54,9 +54,10 @@ export default function SemanaHorizontalScroll() {
     }
 
     const loadata = async () => {
-      const data = await getTasks()
+      const data = await getEvents()
       setTasks(data.events)
       const eventosDeHoy = data.events.filter((item, i) => item.date === hoyISO);
+      console.log(eventosDeHoy,"eventos")
       setTaskPerDate(eventosDeHoy);
       setSelectedDate(hoyISO);
     }
@@ -70,6 +71,8 @@ export default function SemanaHorizontalScroll() {
   const changeDate = (date) => {
     setSelectedDate(date)
     const taskPerDate = tasks.filter((item) => item.date === date)
+
+    console.log(taskPerDate, "task")
     setTaskPerDate(taskPerDate)
   }
 
