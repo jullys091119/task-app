@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="container">
       <HeaderApp />
-      <main>
+      <main className="main">
         <DayOverView/>
         <div>
           <Members/>

@@ -3,19 +3,40 @@
 "use client";
 
 import { PersonPlus, CirclePlusFill } from "@gravity-ui/icons";
-import { Button, Input, Modal, Surface, TextArea, Checkbox, Label, DateInputGroup, Description, TimeField, CheckboxGroup, Radio, RadioGroup } from "@heroui/react";
+import {
+  Button,
+  Input,
+  Modal,
+  Surface,
+  TextArea,
+  Checkbox,
+  Label,
+  DateInputGroup,
+  Description,
+  TimeField,
+  CheckboxGroup,
+  Radio,
+  RadioGroup,
+  ListBox, Select
+} from "@heroui/react";
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "@/app/AppContext";
 import DatePicker from "./DatePicker";
 import { Calendar } from '@gravity-ui/icons';
 import { setNewTask } from "../.././fetch";
 import styles from "./MenuNewTask.module.css"
+import { getMembers } from "../.././fetch";
 
 
 export function FormAddNewTask({ isOpen, close }) {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false)
   const [color, setColor] = useState("#60A5FA");
+  const [category, setCategory] = useState([])
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("")
+  const [members, setMembers] = useState([])
+  const [asigned, setAsigned] = useState([])
 
   const categoryColors = {
     research: "#FF9CEE",
@@ -36,15 +57,33 @@ export function FormAddNewTask({ isOpen, close }) {
     const formatDate = selected.toLocaleDateString("en-CA", {
       timeZone: "UTC"
     });
-    console.log(formatDate);
-    setNewTask(formatDate, task, descriptionTask, color)
+
+    setNewTask(formatDate, start, end, task, descriptionTask,asigned,category,color)
+    setAsigned("")
+    setTask("")
+    setStart("")
+    setEnd("")
+    setDescritpionTask("")
+    setCategory("")
+    setColor("")
+    setAsigned("")
   }
 
   const handleCloseModal = () => {
     close()
   }
-  console.log(color)
-  
+
+
+  useEffect(() => {
+    const loadMembers = async () => {
+      const members = await getMembers();
+      setMembers(members)
+     /*  console.log(members, "memberss") */
+    }
+    loadMembers()
+  }, [])
+
+
   return (
     <Modal isOpen={isOpen}>
       <Modal.Backdrop>
@@ -73,16 +112,17 @@ export function FormAddNewTask({ isOpen, close }) {
                   </div>
 
                   <div className={styles.containerTime}>
-                    <TimeField className="w-[256px]" name="time">
+
+                    <TimeField className="w-[256px]" name="time" onChange={(value) => setStart(value)} value={start}>
                       <Label>Start time</Label>
                       <DateInputGroup>
-                        <DateInputGroup.Input>
+                        <DateInputGroup.Input >
                           {(segment) => <DateInputGroup.Segment segment={segment} />}
                         </DateInputGroup.Input>
                       </DateInputGroup>
                       <Description>Enter the start time</Description>
                     </TimeField>
-                    <TimeField className="w-[256px]" name="end-time">
+                    <TimeField className="w-[256px]" name="end-time" onChange={(value) => setEnd(value)} value={end}>
                       <Label>End time</Label>
                       <DateInputGroup>
                         <DateInputGroup.Input>
@@ -94,28 +134,60 @@ export function FormAddNewTask({ isOpen, close }) {
                   </div>
                   <Input aria-label="Name" placeholder="Task" onChange={(e) => setTask(e.target.value)} value={task} />
                   <TextArea placeholder="Describe your task" onChange={(e) => setDescritpionTask(e.target.value)} value={descriptionTask} />
-                  <div className={styles.containerCheckbox}>
-                    <Checkbox id="basic-terms">
-                      <Checkbox.Control>
-                        <Checkbox.Indicator />
-                      </Checkbox.Control>
-                    </Checkbox>
-                    <Label htmlFor="basic-terms">Event</Label>
-                    <Checkbox id="basic-terms">
-                      <Checkbox.Control>
-                        <Checkbox.Indicator />
-                      </Checkbox.Control>
-                    </Checkbox>
-                    <Label htmlFor="basic-terms">Task</Label>
-                  </div>
+                  <Select className="w-[256px]" placeholder="Select asigned" selectionMode="multiple" onChange={(value)=> setAsigned(value)}>
+                    <Label>Asigned</Label>
+                    <Select.Trigger>
+                      <Select.Value />
+                      <Select.Indicator />
+                    </Select.Trigger>
+                    <Select.Popover>
+                      <ListBox selectionMode="multiple">
+                        {
+                          members.map((member) => {
+                         
+                            return (
+                              <ListBox.Item id={member.id}
+                                textValue={member.nombre}
+                                key={member.id}
+                              >
+                                {member.nombre}
+                                <ListBox.ItemIndicator />
+                              </ListBox.Item>
+                            )
+                          })
+                        }
+                      </ListBox>
+                    </Select.Popover>
+                  </Select>
 
+                  <div className={styles.containerCheckbox}>
+                    <CheckboxGroup
+                      value={category}
+                      onChange={(values) => setCategory(values)}
+                      className={styles.containerCheckbox}
+                    >
+                      <Checkbox value="event">
+                        Event
+                        <Checkbox.Control>
+                          <Checkbox.Indicator />
+                        </Checkbox.Control>
+                      </Checkbox>
+                      <Checkbox value="task">
+                        Task
+                        <Checkbox.Control>
+                          <Checkbox.Indicator />
+                        </Checkbox.Control>
+                      </Checkbox>
+                    </CheckboxGroup>
+                  </div>
                 </div>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <p style={{ marginTop: 10 }}>Color:</p>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <p style={{ margin: "10px 10px 10px 0" }}>Color:</p>
                   <RadioGroup
                     name="color"
                     orientation="horizontal"
                     onChange={(value) => setColor(value)}
+                    style={{ marginRight: 52 }}
                   >
                     {Object.entries(categoryColors).map(([key, color]) => (
                       <Radio key={key} value={color}>
@@ -130,6 +202,7 @@ export function FormAddNewTask({ isOpen, close }) {
                       </Radio>
                     ))}
                   </RadioGroup>
+                  <div className={styles.boxColor} style={{ backgroundColor: `${color}` }}></div>
                 </div>
               </Surface>
             </Modal.Body>
@@ -137,7 +210,7 @@ export function FormAddNewTask({ isOpen, close }) {
               <Button slot="close" variant="secondary" onClick={handleCloseModal}>
                 Cancel
               </Button>
-              <Button slot="close" onClick={() => { handleSetTask() }}>Agregar</Button>
+              <Button slot="close" onClick={() => { handleSetTask() }}>Add new task</Button>
             </Modal.Footer>
           </Modal.Dialog>
         </Modal.Container>

@@ -2,13 +2,16 @@
     min-height: 100vh;
     max-width: 390px;
     overflow: hidden;
-    margin: 30px;
+    margin: 10px;
+    background-color: white;
+    border-radius: 22px;
+    padding: 20px;
 }
 
 .hours {
     display: flex;
-   justify-content: space-around;
-    
+    justify-content: space-around;
+
 }
 
 .cardTask {
@@ -17,30 +20,54 @@
     gap: 20px;
 }
 
-.displayTime,.endTime{ 
+.displayTime,
+.endTime {
     font-size: 13px;
     font-weight: 600;
     font-size: 12px;
 }
+
 .containerCards {
- margin: 10px 0;
+    margin: 10px 0;
 }
+
 .containerHours {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 12px 0;
 }
+
 .eschedule {
     display: flex;
     gap: 10px;
     align-items: center;
     font-size: 12px !important;
+    margin: 10px 0;
 }
+
 .assignedTo {
     display: flex;
     flex-direction: column;
+    font-size: 10px;
+    font-weight: 700;
+    margin: 10px 0;
 }
+
 .containerAvatar {
     display: flex;
-    gap: 10px
+    position: relative;
+    overflow: hidden;
+    width: 170px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.descriptionCardP {
+    font-size: 13px;
+}
+
+.avatarCard {
+    position: relative;
 }

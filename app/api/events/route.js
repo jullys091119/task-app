@@ -98,8 +98,6 @@ export const mockEvents = [
 ];
 
 
-
-
 export async function GET() {
   return Response.json({
     success: true,
@@ -107,22 +105,22 @@ export async function GET() {
   });
 }
 
-
-
-
-
 export async function POST(request) {
   const body = await request.json();
 
   const {
     date,
+    start,
+    end,
     task,
     descriptionTask,
+    asigned,
+    category,
     color
   } = body;
 
 
-  if (!date || !task || !descriptionTask || !color) {
+  if (!date || !task || !descriptionTask || !asigned || !color || !start || !end || !category) {
     return NextResponse.json(
       { error: "Datos incompletos" },
       { status: 400 }
@@ -133,10 +131,13 @@ export async function POST(request) {
   const newTask = {
     id: crypto.randomUUID(),
     date, // YYYY-MM-DD
+    start,
+    end,
     title: task,
     descriptionTask,
+    asigned,
+    category,
     color,
-    type: "task"
   };
 
 

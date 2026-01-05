@@ -28,7 +28,7 @@ export function MenuNewTask() {
         aria-label="Menu"
         className="button button-md button--secondary button--icon-only data-[focus-visible=true]:status-focused"
       >
-        <EllipsisVertical className="outline-none" />
+        <EllipsisVertical className="outline-none iconElipsis"/>
       </Dropdown.Trigger>
       <Dropdown.Popover>
         <Dropdown.Menu onAction={(key) => selectedOptionMenu(key)}>
