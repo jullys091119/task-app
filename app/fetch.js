@@ -99,7 +99,7 @@ export const setNewProject = async (name, subtitle, description, asignados) => {
   }
 };
 
-export const setNewTask = async (date,task, descriptionTask,color) => {
+export const setNewTask = async (date,start,end,task,descriptionTask,asigned,category,color) => {
 
   try {
     const response = await fetch("/api/events", {
@@ -109,9 +109,13 @@ export const setNewTask = async (date,task, descriptionTask,color) => {
       },
       body: JSON.stringify({
         date,
+        start,
+        end,
         task,
         descriptionTask,
+        asigned,
         completed: false,
+        category,
         color
       }),
     })

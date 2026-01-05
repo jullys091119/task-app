@@ -1,46 +1,52 @@
 import { Description, Label, ListBox, Select } from "@heroui/react";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AppContext } from "@/app/AppContext";
 
 export function SelectRequiredTeam() {
-    const {
-     assignedTeam, setAssignedTeam
-  } = useContext(AppContext)
+  const { assignedTeam, setAssignedTeam } = useContext(AppContext);
 
-  const OPCIONES_EQUIPO = [
-    { value: "design-dev", label: "Design & Dev team" },
-    { value: "ui-ux", label: "UI/UX team" },
-    { value: "dev", label: "Development team" },
-    { value: "fullstack", label: "Full Stack team" },
-    { value: "mobile", label: "Mobile team" },
-    { value: "backend", label: "Backend team" },
-    { value: "frontend", label: "Frontend team" },
-    { value: "qa", label: "QA team" },
+  const TEAM_OPTIONS = [
+    { value: "design-dev", label: "Design & Development Team" },
+    { value: "ui-ux", label: "UI / UX Team" },
+    { value: "dev", label: "Development Team" },
+    { value: "fullstack", label: "Full Stack Team" },
+    { value: "mobile", label: "Mobile Team" },
+    { value: "backend", label: "Backend Team" },
+    { value: "frontend", label: "Frontend Team" },
+    { value: "qa", label: "QA Team" },
     { value: "pm", label: "Project Management" },
   ];
 
-
   return (
-    <Select className="w-[256px]"  value={assignedTeam}  placeholder="Selecciona equipo" onChange={(value)=> {setAssignedTeam(value)}} >
-      <Label>Asignar equipo</Label>
+    <Select
+      className="w-[256px]"
+      value={assignedTeam}
+      placeholder="Select team"
+      onChange={(value) => setAssignedTeam(value)}
+    >
+      <Label>Assign Team</Label>
+
       <Select.Trigger>
         <Select.Value />
         <Select.Indicator />
       </Select.Trigger>
+
       <Select.Popover>
         <ListBox>
-          {
-            OPCIONES_EQUIPO.map((item) => (
-              <ListBox.Item id={item.value} textValue={item.value} key={item.value}>
-                 {item.label}
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-            ))
-          }
-
+          {TEAM_OPTIONS.map((item) => (
+            <ListBox.Item
+              key={item.value}
+              id={item.value}
+              textValue={item.label}
+            >
+              {item.label}
+              <ListBox.ItemIndicator />
+            </ListBox.Item>
+          ))}
         </ListBox>
       </Select.Popover>
-      <Description>Selecciona equipo asignado</Description>
+
+      <Description>Select the team assigned to this project</Description>
     </Select>
   );
 }

@@ -1,51 +1,60 @@
-"use client"
+"use client";
+
 import { Description, Label, ListBox, Select } from "@heroui/react";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "@/app/AppContext";
-import { getMembers} from "../../fetch"
-import { useState, useEffect } from "react"
+import { getMembers } from "../../fetch";
 
 export function SelectAssigned() {
-  const [roles, setRoles] = useState([])
+  const [members, setMembers] = useState([]);
+
+  const { assignedToProject, setAssignedToProject } =
+    useContext(AppContext);
 
   useEffect(() => {
-    const loadRoles = async () => {
-      const data = await getMembers()
-      setRoles(data)
-    }
-    loadRoles()
-  }, [])
-  const { assignedToProject,
-    setAssignedToProject,
-  } = useContext(AppContext)
+    const loadMembers = async () => {
+      const data = await getMembers();
+      setMembers(data);
+    };
+    loadMembers();
+  }, []);
+
   return (
-    <Select className="w-[256px]" placeholder="Selecciona uno"
+    <Select
+      className="w-[256px]"
+      placeholder="Select members"
       value={assignedToProject}
-      onChange={(value) => {
-        setAssignedToProject(value)
-      }}
+      onChange={(value) => setAssignedToProject(value)}
       selectionMode="multiple"
     >
-      <Label>Asignados</Label>
+      <Label>Assigned To</Label>
+
       <Select.Trigger>
         <Select.Value />
         <Select.Indicator />
       </Select.Trigger>
+
       <Select.Popover placement="bottom center">
         <ListBox>
-          {
-            roles.map((item) => (
-              <ListBox.Item id={item.id} textValue="Coordinador / Full Stack" key={item.id}>
-                <p style={{ fontWeight: 500 }}>{item.nombre}</p>{item.rol}
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-
-            ))
-          }
-
+          {members.map((item) => (
+            <ListBox.Item
+              key={item.id}
+              id={item.id}
+              textValue={`${item.nombre} ${item.rol}`}
+            >
+              <p className="font-medium">{item.nombre}</p>
+              <span className="text-sm text-muted-foreground">
+                {item.rol}
+              </span>
+              <ListBox.ItemIndicator />
+            </ListBox.Item>
+          ))}
         </ListBox>
       </Select.Popover>
-      <Description>Selecciona a los  asignados para el proyecto</Description>
+
+      <Description>
+        Select the members assigned to this project
+      </Description>
     </Select>
   );
 }

@@ -29,7 +29,7 @@ export const ModalAddTask = ({ isOpen, close }) => {
               </Modal.Body>
               <Modal.Footer>
                 <Button className="w-full" slot="close" onClick={()=>handleGetMembers()}>
-                  Agregar Miembro
+                  Add member
                 </Button>
               </Modal.Footer>
             </Modal.Dialog>

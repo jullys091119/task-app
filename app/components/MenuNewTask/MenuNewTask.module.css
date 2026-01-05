@@ -14,3 +14,12 @@
   gap: 12px;
   align-items: center;
 }
+
+.boxColor {
+  height: 30px;
+  width: 30px;
+}
+.iconElipsis {
+  width: 10px !important;
+  height: 10px !important;
+}

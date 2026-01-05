@@ -5,7 +5,7 @@ import { AppContext } from "@/app/AppContext";
 export function SelectRol() {
   const { setRoleMember, roleMember } = useContext(AppContext)
   return (
-    <Select className="w-[256px]" placeholder="Selecciona uno"
+    <Select  placeholder="Select rol"
       value={roleMember}
       onChange={(value) => {
         setRoleMember(value);
@@ -48,7 +48,7 @@ export function SelectRol() {
           </ListBox.Item>
         </ListBox>
       </Select.Popover>
-      <Description>Seleccion Rol</Description>
+      <Description>Select Rol</Description>
     </Select>
   );
 }

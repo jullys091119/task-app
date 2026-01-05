@@ -2,7 +2,7 @@
 @import "@heroui/styles";
 
 :root {
-  --background: #ffffff;
+  --background: #F8F8F8;
   --foreground: #171717;
 }
 
@@ -53,7 +53,6 @@ body {
   padding: 20px;
   height: 100vh;
 }
-
 .container-members {
   margin-top: 20px;
 }
@@ -61,6 +60,7 @@ body {
 .container-nextTask {
   margin-top: 20px;
   max-width: 390px;
+  margin: 60px 0;
 }
 
 .container-navigation {
@@ -97,6 +97,10 @@ body {
   color: #0a0a0a;
   font-weight: 700;
   font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .currentMonth {

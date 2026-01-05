@@ -38,19 +38,13 @@ export function FormAddMember({isOpen, close}) {
                 </Avatar>
 
               </div>
-              <Modal.Heading>Agregar Nuevo Miembro</Modal.Heading>
-
-              <p className="mt-1.5 text-sm leading-5 text-muted ">
-                Todo queda en nuestra base interna.
-                No usamos datos externos ni fotos reales — el avatar es generado aleatoriamente.
-              </p>
-
+              <Modal.Heading>Add new member</Modal.Heading>
             </Modal.Header>
-            <Modal.Body className="p-6">
+            <Modal.Body >
               <Surface variant="default">
                 <form className="flex flex-col gap-4">
                   <TextField className="w-full" name="name" type="text">
-                    <Label>Nombre</Label>
+                    <Label>Name</Label>
                     <Input placeholder="Enter your name" onChange={(e) => setName(e.target.value)} value={name} />
                   </TextField>
                   <SelectRol />
@@ -62,7 +56,7 @@ export function FormAddMember({isOpen, close}) {
               <Button slot="close" variant="secondary" onClick={handleCloseModal}>
                 Cancel
               </Button>
-              <Button slot="close"  onClick={handleSetMembers}>Agregar</Button>
+              <Button slot="close"  onClick={handleSetMembers}>Add</Button>
             </Modal.Footer>
           </Modal.Dialog>
         </Modal.Container>

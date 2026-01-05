@@ -5,7 +5,8 @@
     display: flex;
     max-width: 390px;
     overflow: scroll;
-    cursor: pointer
+    cursor: pointer;
+      margin: 30px 0;
 }
 
 .avatarMembers {

@@ -1,127 +1,115 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { ChevronLeft, EllipsisVertical } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { getEvents } from ".././fetch"
+import { getEvents } from ".././fetch";
 import { ViewCalendarTask } from "../components/ViewCalendarTask/ViewCalendarTask";
-import {MenuNewTask} from "../components/MenuNewTask/MenuNewTask"
+import { MenuNewTask } from "../components/MenuNewTask/MenuNewTask";
 
+const toLocalISODate = (date) => {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+};
 
 export default function SemanaHorizontalScroll() {
-  const [tasks, setTasks] = useState([])
-  const [taskPerDate, setTaskPerDate] = useState([])
-  const [selectedDate, setSelectedDate] = useState([])
+  const [tasks, setTasks] = useState([]);
+  const [taskPerDate, setTaskPerDate] = useState([]);
+  const [selectedDate, setSelectedDate] = useState("");
 
   const router = useRouter();
   const hoy = new Date();
-  const [fechaCentro] = useState(hoy);
-
-  const dias = [];
-  for (let i = -30; i <= 30; i++) {
-    const fecha = new Date(fechaCentro);
-    fecha.setDate(fecha.getDate() + i);
-
-    const year = fecha.getFullYear();
-    const month = String(fecha.getMonth() + 1).padStart(2, "0");
-    const day = String(fecha.getDate()).padStart(2, "0");
-    const fechaISO = `${year}-${month}-${day}`;
-    dias.push({
-      dia: fecha.getDate(),
-      weekday: fecha.toLocaleDateString("es-ES", { weekday: "short" }).slice(0, 3),
-      fechaISO: fechaISO,
-      esHoy: i === 0,
-      fechaCompleta: fecha,
-    });
-  }
-
-  const nombresDias = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-
-  const hoyISO = new Date().toISOString().split('T')[0];
+  const hoyISO = toLocalISODate(hoy);
 
   const scrollRef = useRef(null);
   const hoyRef = useRef(null);
 
+  const dias = [];
+  for (let i = -30; i <= 30; i++) {
+    const fecha = new Date(hoy);
+    fecha.setDate(hoy.getDate() + i);
+    dias.push({
+      dia: fecha.getDate(),
+      weekday: fecha.toLocaleDateString("es-ES", { weekday: "short" }).slice(0, 3),
+      fechaISO: toLocalISODate(fecha),
+      fechaCompleta: fecha,
+      esHoy: i === 0,
+    });
+  }
+
   useEffect(() => {
-    if (scrollRef.current && hoyRef.current) {
-      const container = scrollRef.current;
-      const hoyElement = hoyRef.current;
-      const containerWidth = container.offsetWidth;
-      const hoyWidth = hoyElement.offsetWidth;
-      const hoyOffsetLeft = hoyElement.offsetLeft;
-
-      container.scrollLeft = hoyOffsetLeft - containerWidth / 2 + hoyWidth / 2;
-    }
-
-    const loadata = async () => {
-      const data = await getEvents()
-      setTasks(data.events)
-      const eventosDeHoy = data.events.filter((item, i) => item.date === hoyISO);
-      console.log(eventosDeHoy,"eventos")
-      setTaskPerDate(eventosDeHoy);
+    const loadData = async () => {
+      const data = await getEvents();
+      setTasks(data.events);
+      setTaskPerDate(data.events.filter((e) => e.date === hoyISO));
       setSelectedDate(hoyISO);
-    }
-
-    loadata()
-
+    };
+    loadData();
   }, []);
 
-  const mesActual = hoy.toLocaleString("en-US", { month: "short" });
+  useEffect(() => {
+    if (!scrollRef.current || !hoyRef.current) return;
+
+    const container = scrollRef.current;
+    const el = hoyRef.current;
+    container.scrollLeft =
+      el.offsetLeft - container.offsetWidth / 2 + el.offsetWidth / 2;
+  }, []);
 
   const changeDate = (date) => {
-    setSelectedDate(date)
-    const taskPerDate = tasks.filter((item) => item.date === date)
+    setSelectedDate(date);
+    setTaskPerDate(tasks.filter((t) => t.date === date));
+  };
 
-    console.log(taskPerDate, "task")
-    setTaskPerDate(taskPerDate)
-  }
+  const nombresDias = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const mesActual = hoy.toLocaleString("en-US", { month: "short" });
 
   return (
     <div className="container-date">
-      <div>
-        <header className="header-calendar">
-          <ChevronLeft strokeWidth={0.5} size={20} onClick={() => router.push("/")} />
-          <div>Calendar</div>
-          <MenuNewTask/>
-        </header>
-      </div>
+      <header className="header-calendar">
+        <ChevronLeft strokeWidth={0.5} size={20} onClick={() => router.push("/")} />
+        <div>Calendar</div>
+        <MenuNewTask size="sm" />
+      </header>
 
-      <div>
-        <h2 className="currentMonth text-center">{mesActual}</h2>
+      <h2 className="currentMonth text-center">{mesActual}</h2>
 
-        <div ref={scrollRef} className="overflow-x-auto scrollbar-hide">
-          <div className="flex items-center gap-4 py-2">
-            {dias.map((d, index) => {
-              const diaSemanaIndex = (d.fechaCompleta.getDay() + 6) % 7;
+      <div ref={scrollRef} className="overflow-x-auto scrollbar-hide">
+        <div className="flex items-center gap-4 py-2">
+          {dias.map((d, index) => {
+            const isSelected = selectedDate === d.fechaISO;
 
-              return (
-                <div key={index} ref={d.esHoy ? hoyRef : null} className="flex flex-col items-center min-w-12">
-                  <div>
-                    <div>
-                      <div
-                        className={
-                          selectedDate === d.fechaISO
-                            ? "color-current-day"   
-                            : d.fechaISO === hoyISO
-                              ? "bg-purple-200 text-danger-800 rounded-full w-12 h-12 flex items-center justify-center" 
-                              : "day-week"
-                        }
-                        onClick={() => changeDate(d.fechaISO)}
-                      >
-                        {d.dia}
-                        <p style={{ fontWeight: "100", fontSize: 12 }}>
-                          {nombresDias[diaSemanaIndex]}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+            return (
+              <div
+                key={index}
+                ref={d.esHoy ? hoyRef : null}
+                className="flex flex-col items-center min-w-12"
+              >
+                <div
+                  className={
+                    isSelected
+                      ? "color-current-day"
+                      : d.fechaISO === hoyISO
+                      ? "bg-purple-200 text-danger-800 rounded-full w-12 h-12 flex items-center justify-center"
+                      : "day-week"
+                  }
+                  onClick={() => changeDate(d.fechaISO)}
+                >
+                  {d.dia}
+                  <p style={{ fontWeight: "100", fontSize: 12 }}>
+                    {nombresDias[
+                      (d.fechaCompleta.getDay() + 6) % 7
+                    ]}
+                  </p>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
-        <ViewCalendarTask data={taskPerDate} />
       </div>
+
+      <ViewCalendarTask data={taskPerDate} />
 
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {
