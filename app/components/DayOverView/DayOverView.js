@@ -18,8 +18,8 @@ export const DayOverView = () => {
     }, [])
     return (
         <div className={styles.DayOverView}>
-            <p className={styles.title}>Tienes {data.length} tareas</p>
-            <p className={styles.subtitle}>por hacer hoy</p>
+            <p className={styles.title}>You have {data.length}</p>
+            <p className={styles.subtitle}> task for today</p>
         </div>
     )
 }

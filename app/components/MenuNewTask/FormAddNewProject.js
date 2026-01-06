@@ -1,6 +1,5 @@
 "use client";
-
-import { Envelope, PersonPlus } from "@gravity-ui/icons";
+import {Circles3Plus} from '@gravity-ui/icons';
 import {
   Button,
   Input,
@@ -55,10 +54,10 @@ export function FormAddNewProject({ isOpen, close }) {
             <Modal.Header>
               <div className="flex justify-between pr-7">
                 <Modal.Icon className="bg-accent-soft text-accent-soft-foreground">
-                  <PersonPlus className="size-5" />
+                  <Circles3Plus className="size-5" />
                 </Modal.Icon>
               </div>
-              <Modal.Heading>Add New Project</Modal.Heading>
+              <Modal.Heading >Add New Project</Modal.Heading>
             </Modal.Header>
 
             <Modal.Body>
