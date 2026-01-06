@@ -71,11 +71,16 @@
 
 .members {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  
 }
 
 .wrapperContent {
     flex: 2;
 }
+
 .avatar {
     position: relative;
     top: -10px;

@@ -39,7 +39,7 @@ export const HeaderApp = () => {
           )}
         </Avatar>
         <div className={styles.grettings}>
-          <p className={styles.grettingUser}>Buenos días !</p>
+          <p className={styles.grettingUser}>Good mornig !</p>
           <p className={styles.name}>Juliá Ontiveros</p>
         </div>
       </div>

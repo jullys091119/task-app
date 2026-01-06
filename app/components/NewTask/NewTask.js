@@ -74,7 +74,7 @@ export const NewTask = () => {
   const handleTooltip = () => {
     setTooltip(!tooltip)
   }
-  
+
   const CardProjects = () => {
     return (
       <>
@@ -82,14 +82,14 @@ export const NewTask = () => {
           {
             count < project.length && (
               <div className={styles.wrapperContainerImages} onClick={handleTooltip} >
-              {<TooltipTask  isOpen={tooltip} description={project[count].descripcion}/> }
+                {<TooltipTask isOpen={tooltip} description={project[count].descripcion} />}
 
                 <div className={styles.containerImage}>
                   <div className={styles.wrapperContent}>
                     <>
                       <p className={styles.title}>{project[count]?.nombre}</p>
                       <p className={styles.subtitle}>Dashboard UI</p>
-                      <p className={styles.team}>Equipo: {project[count]?.subtitulo}</p>
+                      <p className={styles.team}>Team: {project[count]?.subtitulo}</p>
                     </>
                     <Image
                       src={imagen}
@@ -100,23 +100,31 @@ export const NewTask = () => {
                     />
                   </div>
                   <div className={styles.members}>
-                    {
-                      avatarsMembers
-                        .filter(member =>
-                          project[count]?.asignados.includes(member.id)
-                        )
-                        .slice(0, 3)
+                    <div>
+                      {
+                        avatarsMembers
+                          .filter(member =>
+                            project[count]?.asignados.includes(member.id)
+                          )
+                          .slice(0, 3)
 
 
-                        .map(member => (
-                          <ShowAvatar
-                            key={`${project[count].id}-${member.id}`}
-                            img={member.avatar}
-                          />
-                        ))
-                    }
+                          .map(member => {
+                            const currentProject = project[count];
+                            const isThreeAssigned = currentProject?.asignados.length === 3;
+                            return (
+                              <ShowAvatar
+                                key={`${project[count].id}-${member.id}`}
+                                img={member.avatar}
+                              />
+                            )
+                        })
+                      }
 
-                    {chevronLeft ? <BtnBackToTasks /> : <BtnGoToTasks />}
+                    </div>
+                    <div>
+                      {chevronLeft ? <BtnBackToTasks /> : <BtnGoToTasks />}
+                    </div>
                   </div>
                 </div>
                 <div className={styles.one}></div>
@@ -125,7 +133,7 @@ export const NewTask = () => {
           }
         </div>
       </>
-      
+
     )
   }
 
@@ -144,7 +152,7 @@ export const NewTask = () => {
 
   return (
     <div className="container-nextTask">
-      <p className={styles.newTask}>Siguiente Tarea</p>
+      <p className={styles.newTask}>Next Project</p>
       <CardProjects />
     </div>
   )

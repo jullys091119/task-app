@@ -52,13 +52,14 @@ export function FormAddNewTask({ isOpen, close }) {
     descriptionTask, setDescritpionTask,
 
   } = useContext(AppContext)
+  console.log(start, end)
 
   const handleSetTask = (op) => {
     const formatDate = selected.toLocaleDateString("en-CA", {
       timeZone: "UTC"
     });
 
-    setNewTask(formatDate, start, end, task, descriptionTask,asigned,category,color)
+    setNewTask(formatDate, start, end, task, descriptionTask, asigned, category, color)
     setAsigned("")
     setTask("")
     setStart("")
@@ -78,11 +79,10 @@ export function FormAddNewTask({ isOpen, close }) {
     const loadMembers = async () => {
       const members = await getMembers();
       setMembers(members)
-     /*  console.log(members, "memberss") */
+      /*  console.log(members, "memberss") */
     }
     loadMembers()
   }, [])
-
 
   return (
     <Modal isOpen={isOpen}>
@@ -134,7 +134,7 @@ export function FormAddNewTask({ isOpen, close }) {
                   </div>
                   <Input aria-label="Name" placeholder="Task" onChange={(e) => setTask(e.target.value)} value={task} />
                   <TextArea placeholder="Describe your task" onChange={(e) => setDescritpionTask(e.target.value)} value={descriptionTask} />
-                  <Select className="w-[256px]" placeholder="Select asigned" selectionMode="multiple" onChange={(value)=> setAsigned(value)}>
+                  <Select className="w-[256px]" placeholder="Select asigned" selectionMode="multiple" onChange={(value) => setAsigned(value)}>
                     <Label>Asigned</Label>
                     <Select.Trigger>
                       <Select.Value />
@@ -144,7 +144,7 @@ export function FormAddNewTask({ isOpen, close }) {
                       <ListBox selectionMode="multiple">
                         {
                           members.map((member) => {
-                         
+
                             return (
                               <ListBox.Item id={member.id}
                                 textValue={member.nombre}
