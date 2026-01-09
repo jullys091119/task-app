@@ -68,3 +68,8 @@
 .avatarCard {
     position: relative;
 }
+
+.menuPosition {
+    position: absolute;
+    right: 0;
+}

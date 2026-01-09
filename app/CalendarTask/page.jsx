@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { getEvents } from ".././fetch";
+import { getEvents, deleteTasks } from ".././fetch";
 import { ViewCalendarTask } from "../components/ViewCalendarTask/ViewCalendarTask";
 import { MenuNewTask } from "../components/MenuNewTask/MenuNewTask";
 
@@ -15,7 +15,7 @@ const toLocalISODate = (date) => {
 
 export default function SemanaHorizontalScroll() {
   const [tasks, setTasks] = useState([]);
-  const [taskPerDate, setTaskPerDate] = useState([]);
+  /*  const [taskPerDate, setTaskPerDate] = useState([]); */
   const [selectedDate, setSelectedDate] = useState("");
 
   const router = useRouter();
@@ -42,7 +42,6 @@ export default function SemanaHorizontalScroll() {
     const loadData = async () => {
       const data = await getEvents();
       setTasks(data.events);
-      setTaskPerDate(data.events.filter((e) => e.date === hoyISO));
       setSelectedDate(hoyISO);
     };
     loadData();
@@ -59,11 +58,25 @@ export default function SemanaHorizontalScroll() {
 
   const changeDate = (date) => {
     setSelectedDate(date);
-    setTaskPerDate(tasks.filter((t) => t.date === date));
+  };
+
+
+  const handleDeleteTask = async (id) => {
+    setTasks(prev => prev.filter(task => task.id !== id));
+    try {
+      await deleteTasks(id);
+    } catch (e) {
+      console.error("Error al borrar en backend", e);
+    }
   };
 
   const nombresDias = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const mesActual = hoy.toLocaleString("en-US", { month: "short" });
+
+  //Aquí filtramos por día.
+  const taskPerDate = tasks.filter(
+    (task) => task.date === selectedDate
+  );
 
   return (
     <div className="container-date">
@@ -91,8 +104,8 @@ export default function SemanaHorizontalScroll() {
                     isSelected
                       ? "color-current-day"
                       : d.fechaISO === hoyISO
-                      ? "bg-purple-200 text-danger-800 rounded-full w-12 h-12 flex items-center justify-center"
-                      : "day-week"
+                        ? "bg-purple-200 text-danger-800 rounded-full w-12 h-12 flex items-center justify-center"
+                        : "day-week"
                   }
                   onClick={() => changeDate(d.fechaISO)}
                 >
@@ -109,7 +122,7 @@ export default function SemanaHorizontalScroll() {
         </div>
       </div>
 
-      <ViewCalendarTask data={taskPerDate} />
+      <ViewCalendarTask data={taskPerDate} onDelete={handleDeleteTask} />
 
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {

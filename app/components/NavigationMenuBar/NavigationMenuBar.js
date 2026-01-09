@@ -18,6 +18,7 @@ export const NavigationMenuBar = () => {
                 break;
             case 2: router.push("/CalendarTask");
                 break;
+            case 3: router.push("/filterTasks")
         }
 
     }

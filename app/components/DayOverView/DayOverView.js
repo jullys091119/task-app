@@ -10,7 +10,7 @@ export const DayOverView = () => {
 
           const data = await getProjects();
           setData(data) 
-          console.log(data, "data")
+      /*     console.log(data, "data") */
 
         }
         loadData()

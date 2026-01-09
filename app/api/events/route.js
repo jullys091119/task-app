@@ -1,6 +1,6 @@
 // lib/mockEvents.js
 // lib/mockEvents.js
-
+export const dynamic = 'force-dynamic'
 import { NextResponse } from "next/server";
 
 export const mockEvents = [
@@ -103,11 +103,31 @@ export async function GET() {
     success: true,
     events: mockEvents,
   });
+
 }
+
+
+export async function DELETE(request) {
+  const body = await request.json()
+  console.log("DELETE BODY:", body)
+  return Response.json({ success: true })
+}
+
+
+export async function PATCH(req) {
+  const body = await req.json(); // { id: "1", title: "nuevo" }
+  const index = mockEvents.findIndex(event => event.id === body.id);
+  if (index !== -1) {
+    mockEvents[index] = { ...mockEvents[index], ...body };
+  }
+
+  return NextResponse.json({ success: true, event: mockEvents[index] });
+}
+
+
 
 export async function POST(request) {
   const body = await request.json();
-
   const {
     date,
     start,
@@ -142,6 +162,8 @@ export async function POST(request) {
 
 
   mockEvents.push(newTask);
+
+  console.log(mockEvents, "desde la insercion")
 
   return NextResponse.json(
     {

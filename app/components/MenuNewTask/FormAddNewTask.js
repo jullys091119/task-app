@@ -52,7 +52,7 @@ export function FormAddNewTask({ isOpen, close }) {
     descriptionTask, setDescritpionTask,
 
   } = useContext(AppContext)
-  console.log(start, end)
+/*   console.log(start, end) */
 
   const handleSetTask = (op) => {
     const formatDate = selected.toLocaleDateString("en-CA", {
