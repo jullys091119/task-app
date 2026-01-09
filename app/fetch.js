@@ -29,9 +29,6 @@ export const getEvents = async () => {
 }
 
 
-
-
-
 export const setMembers = async (name, role, avatar) => {
   function generarIdNumerico() {
     const timestamp = Date.now();
@@ -87,7 +84,7 @@ export const setNewProject = async (name, subtitle, description, asignados) => {
     if (response.ok) {
       const result = await response.json();
       console.log("Proyecto creado con éxito:", result);
-      return result; 
+      return result;
     } else {
       const errorData = await response.json().catch(() => ({}));
       console.error("Error al crear proyecto:", response.status, errorData);
@@ -95,11 +92,11 @@ export const setNewProject = async (name, subtitle, description, asignados) => {
     }
   } catch (error) {
     console.error("Error de red o inesperado:", error);
-    throw error; 
+    throw error;
   }
 };
 
-export const setNewTask = async (date,start,end,task,descriptionTask,asigned,category,color) => {
+export const setNewTask = async (date, start, end, task, descriptionTask, asigned, category, color) => {
 
   try {
     const response = await fetch("/api/events", {
@@ -123,7 +120,7 @@ export const setNewTask = async (date,start,end,task,descriptionTask,asigned,cat
     if (response.ok) {
       const result = await response.json();
       console.log("Tarea creada con éxito:", result);
-      return result; 
+      return result;
     } else {
       const errorData = await response.json().catch(() => ({}));
       console.error("Error al crear la tarea:", response.status, errorData);
@@ -131,6 +128,33 @@ export const setNewTask = async (date,start,end,task,descriptionTask,asigned,cat
     }
   } catch (error) {
     console.error("Error de red o inesperado:", error);
-    throw error; 
+    throw error;
   }
 }
+
+
+export const deleteTasks = async (taskId) => {
+  console.log(taskId, "id para borrrar desde fetch")
+  await fetch("/api/events", {
+    method: "DELETE",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({id:taskId}),
+  })
+}
+
+
+export const updateTask = async (data) => {
+  const res = await fetch('/api/events', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) throw new Error('Error actualizando task');
+
+  const json = await res.json();
+  console.log('Respuesta PATCH:', json); 
+  return json;
+};

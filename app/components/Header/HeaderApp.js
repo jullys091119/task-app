@@ -17,7 +17,7 @@ export const HeaderApp = () => {
       setMembers(data)
     }
 
-    console.log(members)
+  /*   console.log(members) */
     loadData()
 
   }, [])

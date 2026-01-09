@@ -21,7 +21,7 @@ export async function GET() {
 
 export async function POST(request) {
   const newMember = await request.json();
-  console.log(newMember, "new member")
+ /*  console.log(newMember, "new member") */
   if (!newMember.nombre || !newMember.rol || !newMember.avatar) {
     return NextResponse.json(
       { error: "name and rol are required" },
