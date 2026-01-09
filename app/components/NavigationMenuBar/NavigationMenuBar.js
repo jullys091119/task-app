@@ -27,8 +27,8 @@ export const NavigationMenuBar = () => {
         const buttons = [
             { id: 1, icon: <House /> },
             { id: 2, icon: <CalendarDays /> },
-            { id: 3, icon: <SquarePen /> },
-            { id: 4, icon: <User /> }
+          /*   { id: 3, icon: <SquarePen /> },
+            { id: 4, icon: <User /> } */
         ]
         return (
             buttons.map((btn, i) => (
