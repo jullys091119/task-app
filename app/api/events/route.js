@@ -8,55 +8,63 @@ export const mockEvents = [
     id: "1",
     date: "2025-12-27",
     title: "Research Plan",
-    startTime: "09:00",
-    endTime: "10:45",
+    start: "09:00 AM",
+    end: "10:45 AM",
     displayTime: "09:00 AM",
+    descriptionTask: "We need to create footer rood rood",
     assignedTo: {
       name: "Wade Warren",
       avatar: "https://i.pravatar.cc/150?img=68",
     },
     color: "#FF9CEE",
-    category: "research",
+    category: ["event"],
   },
   {
     id: "2",
     date: "2025-12-27",
     title: "Team Meeting",
-    startTime: "11:30",
-    endTime: "13:00",
+    start: "11:30 AM",
+    end: "13:00 AM",
+     assignedTo: {
+      name: "Wade Warren",
+      avatar: "https://i.pravatar.cc/150?img=68",
+    },
     displayTime: "11:30 AM",
     isGroup: true,
     participantsCount: 8,
+    descriptionTask: "We need to create footer ....",
     color: "#FFB46E",
-    category: "meeting",
+    category: ["task"],
   },
   {
     id: "3",
     date: "2025-12-27",
     title: "Design Review on Healthcare Dashboard",
-    startTime: "13:00",
-    endTime: "14:00",
+    start: "13:00 AM",
+    end: "14:00 PM",
     displayTime: "01:00 PM",
+    descriptionTask: "We need to create footer ....",
     assignedTo: {
       name: "Leslie Alexander",
       avatar: "https://i.pravatar.cc/150?img=32",
     },
     color: "#6EDBFF",
-    category: "review",
+    category: ["event"],
   },
   {
     id: "4",
     date: "2025-12-27",
     title: "Organizing Team Roles for Project Success",
-    startTime: "14:30",
-    endTime: "15:30",
+    start: "14:30 PM",
+    end: "15:30 PM",
     displayTime: "02:30 PM",
+    descriptionTask: "We need to create footer ....",
     assignedTo: {
       name: "Alexander Moore",
       avatar: "https://i.pravatar.cc/150?img=47",
     },
     color: "#FFD76E",
-    category: "planning",
+    category: ["task"],
   },
 
 
@@ -64,36 +72,16 @@ export const mockEvents = [
     id: "5",
     date: "2025-12-26", // Día 26
     title: "Client Kickoff Meeting",
-    startTime: "10:00",
-    endTime: "11:30",
+    start: "10:00 PM",
+    end: "11:30 PM",
     displayTime: "10:00 AM",
+    descriptionTask: "We need to create footer ....",
     assignedTo: {
       name: "Sophia Chen",
       avatar: "https://i.pravatar.cc/150?img=10",
     },
     color: "#A78BFA",
-    category: "call",
-  },
-  {
-    id: "6",
-    date: "2025-12-28", // Día 28
-    title: "Sprint Planning",
-    startTime: "09:30",
-    endTime: "11:00",
-    displayTime: "09:30 AM",
-    isGroup: true,
-    participantsCount: 12,
-    color: "#FFB46E",
-    category: "meeting",
-  },
-  {
-    id: "7",
-    date: "2025-12-25", // Día 25 (para que veas que puede estar vacío)
-    title: "No events today", // lo borramos después, solo para ejemplo
-    startTime: "00:00",
-    endTime: "00:00",
-    displayTime: "",
-    color: "#FFFFFF",
+    category: ["event"],  
   },
 ];
 
@@ -105,6 +93,8 @@ export async function GET() {
   });
 
 }
+  
+
 
 
 export async function DELETE(request) {

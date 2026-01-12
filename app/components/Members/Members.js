@@ -23,7 +23,7 @@ export const Members = () => {
 
   const ShowAvatar = (img) => {
     return (
-      <Avatar>
+      <Avatar size="lg">
         <Image
           src={img.img}
           width={90}
@@ -47,13 +47,13 @@ export const Members = () => {
       <div className="container-members">
         <div className={styles.containerAvatarMembers}>
           <p className={styles.membersTitle}>{members.length} Members</p>
-          <Avatar size="sm" className={styles.avatarMembers} onClick={handleModalNewMember} >
+          <Avatar size="md" className={styles.avatarMembers} onClick={handleModalNewMember} >
             <Plus size={16} strokeWidth={0.5} absoluteStrokeWidth color="#ffffff" />
           </Avatar>
         </div>
         <div className={styles.containerMembers}>
           {
-            members.map((item, i) => (<ShowAvatar img={item.avatar} key={i} />))
+            members.map((item, i) => (<ShowAvatar  img={item.avatar} key={i} />))
           }
         </div>
 

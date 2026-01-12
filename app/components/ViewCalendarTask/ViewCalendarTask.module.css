@@ -22,9 +22,8 @@
 
 .displayTime,
 .endTime {
-    font-size: 13px;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 10px;
 }
 
 .containerCards {
@@ -52,6 +51,7 @@
     font-size: 10px;
     font-weight: 700;
     margin: 10px 0;
+    position: relative;
 }
 
 .containerAvatar {
@@ -72,4 +72,20 @@
 .menuPosition {
     position: absolute;
     right: 0;
+}
+
+.avatarName{
+    display: flex !important;
+    background-color: aliceblue;
+    max-width: 75px;
+    height: auto;
+    border-radius: 10px;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+}
+
+.nameAvatar:hover {
+    opacity: 1;
 }
