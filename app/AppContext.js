@@ -14,6 +14,8 @@ export const AppProvider = ({ children }) => {
     const [selected, setSelected] = useState("");
     const [task, setTask] = useState("")
     const [descriptionTask, setDescritpionTask] = useState("")
+    const [updateStateCard, setUpdateStateCard] = useState(false);
+    const [listBoxFilter, setListBoxFilter] = useState("")
 
 
 
@@ -61,6 +63,10 @@ export const AppProvider = ({ children }) => {
             setTask,
             descriptionTask,
             setDescritpionTask,
+            updateStateCard, 
+            setUpdateStateCard,
+            listBoxFilter,
+            setListBoxFilter,
         }}>
             {children}
         </AppContext.Provider>

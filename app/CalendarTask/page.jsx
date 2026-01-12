@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
+import { AppContext } from "../AppContext";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { getEvents, deleteTasks } from ".././fetch";
@@ -14,8 +15,8 @@ const toLocalISODate = (date) => {
 };
 
 export default function SemanaHorizontalScroll() {
+  const { updateStateCard } = useContext(AppContext)
   const [tasks, setTasks] = useState([]);
-  /*  const [taskPerDate, setTaskPerDate] = useState([]); */
   const [selectedDate, setSelectedDate] = useState("");
 
   const router = useRouter();
@@ -45,11 +46,10 @@ export default function SemanaHorizontalScroll() {
       setSelectedDate(hoyISO);
     };
     loadData();
-  }, []);
+  }, [updateStateCard]);
 
   useEffect(() => {
     if (!scrollRef.current || !hoyRef.current) return;
-
     const container = scrollRef.current;
     const el = hoyRef.current;
     container.scrollLeft =
@@ -78,6 +78,7 @@ export default function SemanaHorizontalScroll() {
     (task) => task.date === selectedDate
   );
 
+
   return (
     <div className="container-date">
       <header className="header-calendar">
@@ -92,7 +93,6 @@ export default function SemanaHorizontalScroll() {
         <div className="flex items-center gap-4 py-2">
           {dias.map((d, index) => {
             const isSelected = selectedDate === d.fechaISO;
-
             return (
               <div
                 key={index}

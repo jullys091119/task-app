@@ -9,11 +9,6 @@ import { setMembers } from "@/app/fetch";
 
 export const ModalAddTask = ({ isOpen, close }) => {
   const { number, name, imgRandom } = useContext(AppContext)
-
-
-   
-
-
   return (
     <div className="flex flex-wrap gap-4">
       <Modal isOpen={isOpen}>

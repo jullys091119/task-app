@@ -85,6 +85,8 @@ export const NewTask = () => {
                 {<TooltipTask isOpen={tooltip} description={project[count].descripcion} />}
 
                 <div className={styles.containerImage}>
+                  <div className={styles.one}></div>
+                  <div className={styles.two}></div>
                   <div className={styles.wrapperContent}>
                     <>
                       <p className={styles.title}>{project[count]?.nombre}</p>
@@ -118,7 +120,7 @@ export const NewTask = () => {
                                 img={member.avatar}
                               />
                             )
-                        })
+                          })
                       }
 
                     </div>
@@ -127,8 +129,7 @@ export const NewTask = () => {
                     </div>
                   </div>
                 </div>
-                <div className={styles.one}></div>
-                <div className={styles.two}></div>
+
               </div>)
           }
         </div>
