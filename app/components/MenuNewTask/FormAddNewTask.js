@@ -50,7 +50,7 @@ export function FormAddNewTask({ isOpen, close }) {
     setTask,
     descriptionTask,
     setDescritpionTask,
-    setUpdateStateCard
+    setTasks,
   } = useContext(AppContext);
 
   function timeObjectToAmPm(time) {
@@ -69,6 +69,7 @@ export function FormAddNewTask({ isOpen, close }) {
     );
   }
 
+
   const handleSetTask = () => {
     const formatDate = selected.toLocaleDateString("en-CA", {
       timeZone: "UTC",
@@ -77,27 +78,27 @@ export function FormAddNewTask({ isOpen, close }) {
     if (!start || !end) return;
 
     const now = new Date();
-
     const taskStart = new Date(`${formatDate} ${start.hour}:${start.minute}`);
 
-    // tarea en el pasado
     if (taskStart < now) {
-      setAlert(true)
+      setAlert(true);
       return;
     }
 
-    setUpdateStateCard(true);
-
-    setNewTask(
-      formatDate,
-      timeObjectToAmPm(start),
-      timeObjectToAmPm(end),
-      task,
+    const newTask = {
+      id: crypto.randomUUID(),
+      date: formatDate,
+      start: timeObjectToAmPm(start),
+      end: timeObjectToAmPm(end),
+      title: task,
       descriptionTask,
-      Array.from(asigned),
+      asigned: Array.from(asigned),
       category,
-      color
-    );
+      color,
+    };
+
+  
+    setTasks(prev => [...prev, newTask]);
 
     // reset
     setAsigned([]);
@@ -107,8 +108,10 @@ export function FormAddNewTask({ isOpen, close }) {
     setDescritpionTask("");
     setCategory([]);
     setColor("#60A5FA");
+    setAlert(false);
     close();
   };
+
 
   useEffect(() => {
     const loadMembers = async () => {
