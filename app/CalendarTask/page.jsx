@@ -1,9 +1,9 @@
 "use client";
-import { useState, useEffect, useRef, useContext } from "react";
+import { useEffect, useRef, useContext, useState } from "react";
 import { AppContext } from "../AppContext";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { getEvents, deleteTasks } from ".././fetch";
+import { deleteTasks } from "../fetch";
 import { ViewCalendarTask } from "../components/ViewCalendarTask/ViewCalendarTask";
 import { MenuNewTask } from "../components/MenuNewTask/MenuNewTask";
 
@@ -15,8 +15,7 @@ const toLocalISODate = (date) => {
 };
 
 export default function SemanaHorizontalScroll() {
-  const { updateStateCard } = useContext(AppContext)
-  const [tasks, setTasks] = useState([]);
+  const { tasks, setTasks } = useContext(AppContext);
   const [selectedDate, setSelectedDate] = useState("");
 
   const router = useRouter();
@@ -40,13 +39,8 @@ export default function SemanaHorizontalScroll() {
   }
 
   useEffect(() => {
-    const loadData = async () => {
-      const data = await getEvents();
-      setTasks(data.events);
-      setSelectedDate(hoyISO);
-    };
-    loadData();
-  }, [updateStateCard]);
+    setSelectedDate(hoyISO);
+  }, [hoyISO]);
 
   useEffect(() => {
     if (!scrollRef.current || !hoyRef.current) return;
@@ -60,24 +54,21 @@ export default function SemanaHorizontalScroll() {
     setSelectedDate(date);
   };
 
-
   const handleDeleteTask = async (id) => {
-    setTasks(prev => prev.filter(task => task.id !== id));
+    setTasks((prev) => prev.filter((task) => task.id !== id));
     try {
       await deleteTasks(id);
     } catch (e) {
-      console.error("Error al borrar en backend", e);
+      console.error(e);
     }
   };
 
   const nombresDias = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const mesActual = hoy.toLocaleString("en-US", { month: "short" });
 
-  //Aquí filtramos por día.
   const taskPerDate = tasks.filter(
     (task) => task.date === selectedDate
   );
-
 
   return (
     <div className="container-date">
@@ -104,16 +95,14 @@ export default function SemanaHorizontalScroll() {
                     isSelected
                       ? "color-current-day"
                       : d.fechaISO === hoyISO
-                        ? "bg-purple-200 text-danger-800 rounded-full w-12 h-12 flex items-center justify-center"
-                        : "day-week"
+                      ? "bg-purple-200 text-danger-800 rounded-full w-12 h-12 flex items-center justify-center"
+                      : "day-week"
                   }
                   onClick={() => changeDate(d.fechaISO)}
                 >
                   {d.dia}
                   <p style={{ fontWeight: "100", fontSize: 12 }}>
-                    {nombresDias[
-                      (d.fechaCompleta.getDay() + 6) % 7
-                    ]}
+                    {nombresDias[(d.fechaCompleta.getDay() + 6) % 7]}
                   </p>
                 </div>
               </div>

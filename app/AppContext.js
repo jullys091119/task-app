@@ -13,6 +13,7 @@ export const AppProvider = ({ children }) => {
     const [descriptionProject, setDescriptionProject] = useState("")
     const [selected, setSelected] = useState("");
     const [task, setTask] = useState("")
+    const [tasks, setTasks] = useState([]);
     const [descriptionTask, setDescritpionTask] = useState("")
     const [updateStateCard, setUpdateStateCard] = useState(false);
     const [listBoxFilter, setListBoxFilter] = useState("")
@@ -63,10 +64,9 @@ export const AppProvider = ({ children }) => {
             setTask,
             descriptionTask,
             setDescritpionTask,
-            updateStateCard, 
-            setUpdateStateCard,
             listBoxFilter,
             setListBoxFilter,
+            tasks, setTasks,
         }}>
             {children}
         </AppContext.Provider>
