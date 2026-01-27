@@ -11,12 +11,13 @@ export const AppProvider = ({ children }) => {
     const [nameEmployed, setNameEmployed] = useState("")
     const [assignedTeam, setAssignedTeam] = useState("");
     const [descriptionProject, setDescriptionProject] = useState("")
-    const [selected, setSelected] = useState("");
+    const [selected, setSelected] = useState(new Date());
     const [task, setTask] = useState("")
     const [tasks, setTasks] = useState([]);
     const [descriptionTask, setDescritpionTask] = useState("")
     const [updateStateCard, setUpdateStateCard] = useState(false);
     const [listBoxFilter, setListBoxFilter] = useState("")
+     const [topics, setTopics] = useState([]);
 
 
 
@@ -67,6 +68,7 @@ export const AppProvider = ({ children }) => {
             listBoxFilter,
             setListBoxFilter,
             tasks, setTasks,
+            topics, setTopics
         }}>
             {children}
         </AppContext.Provider>

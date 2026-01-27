@@ -8,11 +8,23 @@ import styles from "../components/ViewCalendarTask/ViewCalendarTask.module.css"
 import { Avatar, Separator, Card } from "@heroui/react";
 import { CircleXmarkFill } from '@gravity-ui/icons';
 import { Clock10 } from "lucide-react";
+import { deleteTasks } from "../fetch";
 
 const Page = () => {
   const { listBoxFilter } = useContext(AppContext)
   const [events, setEvents] = useState([])
   const [avatar, setAvatar] = useState([])
+
+  
+  const handleDeleteTask = async (id) => {
+    setEvents((prev) => prev.filter((task) => task.id !== id));
+    try {
+      await deleteTasks(id);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
 
   useEffect(() => {
     const loadData = async () => {
@@ -20,6 +32,8 @@ const Page = () => {
 
       const filterTask = eventsTask.events.filter((item, i) => item.category[0] === listBoxFilter).sort();
       const allTask = eventsTask.events
+
+      console.log(allTask, "allTasks")
       if(!listBoxFilter || listBoxFilter === "allTask") {
         setEvents(allTask)
       } else {
@@ -75,7 +89,7 @@ const Page = () => {
                           >
                             {item.title}
                           </Card.Title>
-                          <span style={{ cursor: 'pointer', fontWeight: 'bold' }} onClick={() => onDelete(item.id)}><CircleXmarkFill /></span>
+                          <span style={{ cursor: 'pointer', fontWeight: 'bold' }} onClick={() => handleDeleteTask(item.id)}><CircleXmarkFill /></span>
 
                         </div>
                         <div className={styles.eschedule}>

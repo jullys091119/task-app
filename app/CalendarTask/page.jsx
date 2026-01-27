@@ -15,7 +15,7 @@ const toLocalISODate = (date) => {
 };
 
 export default function SemanaHorizontalScroll() {
-  const { tasks, setTasks } = useContext(AppContext);
+  const { tasks, setTasks,topics, setTopics } = useContext(AppContext);
   const [selectedDate, setSelectedDate] = useState("");
 
   const router = useRouter();
@@ -111,7 +111,7 @@ export default function SemanaHorizontalScroll() {
         </div>
       </div>
 
-      <ViewCalendarTask data={taskPerDate} onDelete={handleDeleteTask} />
+      <ViewCalendarTask data={taskPerDate} onDelete={handleDeleteTask}  topics={topics}/>
 
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {
