@@ -1,6 +1,6 @@
 "use client";
 
-import { CirclePlusFill, Calendar } from "@gravity-ui/icons";
+import { CirclePlusFill } from "@gravity-ui/icons";
 import {
   Button,
   Input,
@@ -9,78 +9,179 @@ import {
   TextArea,
   Checkbox,
   Label,
-  DateInputGroup,
   Description,
   TimeField,
   CheckboxGroup,
   Radio,
   RadioGroup,
   ListBox,
-  Select
+  Select,
+  ErrorMessage,
+  DateInputGroup,
 } from "@heroui/react";
-import { useContext, useEffect, useState } from "react";
+
+import { useContext, useEffect, useMemo, useState } from "react";
 import { AppContext } from "@/app/AppContext";
 import DatePicker from "./DatePicker";
-import { setNewTask, getMembers } from "../../fetch";
+import { getMembers } from "../../fetch";
 import styles from "./MenuNewTask.module.css";
-import { ErrorMessage } from '@heroui/react';
+
+// ---------------- ContainerTime ----------------
+export function ContainerTime({ label, time, onChange }) {
+  return (
+    <TimeField value={time} onChange={onChange} className="w-[256px]">
+      <Label>{label}</Label>
+      <DateInputGroup>
+        <DateInputGroup.Input>
+          {(segment) => <DateInputGroup.Segment segment={segment} />}
+        </DateInputGroup.Input>
+      </DateInputGroup>
+      <Description>Enter the {label.toLowerCase()}</Description>
+    </TimeField>
+  );
+}
+
+// ---------------- DiscussionTopics ----------------
+function DiscussionTopics({ category, topics, setTopics, categoryColors }) {
+  const getRandomColor = () => {
+    const keys = Object.keys(categoryColors);
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+    return categoryColors[randomKey];
+  };
+
+  const addTopic = () => {
+    const newTopic = {
+      id: crypto.randomUUID(),
+      title: "",
+      start: { hour: 0, minute: 0, second: 0, millisecond: 0 },
+      end: { hour: 0, minute: 0, second: 0, millisecond: 0 },
+      color: getRandomColor(),
+    };
+
+    setTopics((prev) => [...prev, newTopic]);
+  };
+
+  const updateTopic = (id, field, value) => {
+    setTopics((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, [field]: value } : t))
+    );
+  };
+
+  if (!category.includes("event")) return null;
+
+  return (
+    <div className="flex flex-col gap-4 mt-2">
+      <Label>Topics to discuss</Label>
+
+      <button
+        type="button"
+        onClick={addTopic}
+        className="bg-gray-200 px-2 py-1 rounded w-max"
+      >
+        + Add topic
+      </button>
+
+      {topics.map((topic) => (
+        <div key={topic.id} className="flex flex-col gap-2 border p-2 rounded">
+          <Input
+            placeholder="Topic title"
+            value={topic.title}
+            onChange={(e) => updateTopic(topic.id, "title", e.target.value)}
+          />
+
+          <div className="flex gap-2">
+            <ContainerTime
+              label="Start"
+              time={topic.start}
+              onChange={(value) => updateTopic(topic.id, "start", value)}
+            />
+            <ContainerTime
+              label="End"
+              time={topic.end}
+              onChange={(value) => updateTopic(topic.id, "end", value)}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export function FormAddNewTask({ isOpen, close }) {
-  const [isOpenCalendar, setIsOpenCalendar] = useState(false);
   const [color, setColor] = useState("#60A5FA");
   const [category, setCategory] = useState([]);
-  const [start, setStart] = useState(null);
-  const [end, setEnd] = useState(null);
   const [members, setMembers] = useState([]);
   const [asigned, setAsigned] = useState([]);
-  const [alert, setAlert] = useState(false)
+  const [alert, setAlert] = useState(false);
 
+  const [start, setStart] = useState({
+    hour: 0,
+    minute: 0,
+    second: 0,
+    millisecond: 0,
+  });
 
-  const categoryColors = {
-    research: "#FF9CEE",
-    meeting: "#FFB46E",
-    review: "#6EDBFF",
-    planning: "#FFD76E",
-    call: "#A78BFA",
-  };
+  const [end, setEnd] = useState({
+    hour: 0,
+    minute: 0,
+    second: 0,
+    millisecond: 0,
+  });
+
+  const categoryColors = useMemo(
+    () => ({
+      research: "#FF9CEE",
+      meeting: "#FFB46E",
+      review: "#6EDBFF",
+      planning: "#FFD76E",
+      call: "#A78BFA",
+    }),
+    []
+  );
 
   const {
     selected,
+    setSelected,
     task,
     setTask,
     descriptionTask,
     setDescritpionTask,
     setTasks,
+    topics,
+    setTopics,
   } = useContext(AppContext);
 
-  function timeObjectToAmPm(time) {
+ 
+  useEffect(() => {
+    if (isOpen) {
+      setSelected((prev) => prev ?? new Date());
+    }
+  }, [isOpen, setSelected]);
+
+  useEffect(() => {
+    const loadMembers = async () => setMembers(await getMembers());
+    loadMembers();
+  }, []);
+
+  const timeObjectToAmPm = (time) => {
     if (!time || time.hour == null || time.minute == null) return "";
     const hour12 = time.hour % 12 || 12;
     const period = time.hour >= 12 ? "PM" : "AM";
     const minute = String(time.minute).padStart(2, "0");
     return `${hour12}:${minute} ${period}`;
-  }
-
-  function CustomErrorMessage() {
-    return (
-      <ErrorMessage className="font-bold text-sm">
-        Please select a valid time
-      </ErrorMessage>
-    );
-  }
-
+  };
 
   const handleSetTask = () => {
-    const formatDate = selected.toLocaleDateString("en-CA", {
-      timeZone: "UTC",
-    });
+    const safeSelected = selected instanceof Date ? selected : new Date();
+    const formatDate = safeSelected.toLocaleDateString("en-CA");
 
-    if (!start || !end) return;
+    const taskStart = new Date(
+      `${formatDate} ${String(start.hour).padStart(2, "0")}:${String(
+        start.minute
+      ).padStart(2, "0")}`
+    );
 
-    const now = new Date();
-    const taskStart = new Date(`${formatDate} ${start.hour}:${start.minute}`);
-
-    if (taskStart < now) {
+    if (taskStart < new Date()) {
       setAlert(true);
       return;
     }
@@ -95,31 +196,27 @@ export function FormAddNewTask({ isOpen, close }) {
       asigned: Array.from(asigned),
       category,
       color,
+
+      
+      topics: category.includes("event") ? [...topics] : [],
     };
 
-  
-    setTasks(prev => [...prev, newTask]);
+    setTasks((prev) => [...prev, newTask]);
 
     // reset
     setAsigned([]);
     setTask("");
-    setStart(null);
-    setEnd(null);
+    setStart({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+    setEnd({ hour: 0, minute: 0, second: 0, millisecond: 0 });
     setDescritpionTask("");
     setCategory([]);
     setColor("#60A5FA");
     setAlert(false);
+
+    setTopics([]);
+
     close();
   };
-
-
-  useEffect(() => {
-    const loadMembers = async () => {
-      const members = await getMembers();
-      setMembers(members);
-    };
-    loadMembers();
-  }, []);
 
   return (
     <Modal isOpen={isOpen}>
@@ -127,6 +224,7 @@ export function FormAddNewTask({ isOpen, close }) {
         <Modal.Container placement="center">
           <Modal.Dialog className="sm:max-w-md">
             <Modal.CloseTrigger onClick={close} />
+
             <Modal.Header>
               <div className="flex justify-between pr-7">
                 <Modal.Icon className="bg-accent-soft text-accent-soft-foreground">
@@ -137,145 +235,116 @@ export function FormAddNewTask({ isOpen, close }) {
             </Modal.Header>
 
             <Modal.Body>
-              <Surface variant="default">
-                <div className="flex flex-col gap-4">
-                  <div className="flex gap-2 items-center">
-                    <Calendar
-                      width={23}
-                      height={23}
-                      onClick={() => setIsOpenCalendar(!isOpenCalendar)}
-                    />
-                    <p>Select a date</p>
-                  </div>
-
-                  <div className={styles.containerDate}>
-                    {isOpenCalendar && <DatePicker />}
-                  </div>
-
-                  <div className={styles.containerTime}>
-                    <TimeField
-                      className="w-[256px]"
-                      value={start}
-                      onChange={setStart}
-                    >
-                      <Label>Start time</Label>
-                      <DateInputGroup>
-                        <DateInputGroup.Input>
-                          {(segment) => (
-                            <DateInputGroup.Segment segment={segment} />
-                          )}
-                        </DateInputGroup.Input>
-                      </DateInputGroup>
-                      <Description>Enter the start time</Description>
-                    </TimeField>
-
-                    <TimeField
-                      className="w-[256px]"
-                      value={end}
-                      onChange={setEnd}
-                    >
-                      <Label>End time</Label>
-                      <DateInputGroup>
-                        <DateInputGroup.Input>
-                          {(segment) => (
-                            <DateInputGroup.Segment segment={segment} />
-                          )}
-                        </DateInputGroup.Input>
-                      </DateInputGroup>
-                      <Description>Enter the end time</Description>
-                    </TimeField>
-                  </div>
-                  {alert && <CustomErrorMessage />}
-
-                  <Input
-                    placeholder="Task"
-                    value={task}
-                    onChange={(e) => setTask(e.target.value)}
+              <Surface variant="default" className="flex flex-col gap-4">
+                <div className={styles.containerTime}>
+                  <ContainerTime
+                    label="Start time"
+                    time={start}
+                    onChange={setStart}
                   />
+                  <ContainerTime label="End time" time={end} onChange={setEnd} />
+                </div>
 
-                  <TextArea
-                    placeholder="Describe your task"
-                    value={descriptionTask}
-                    onChange={(e) => setDescritpionTask(e.target.value)}
-                  />
-                  <Select
-                    className="w-[256px]"
-                    selectionMode="multiple"
-                    placeholder="Select assigned"
-                    value={asigned}
-                    onChange={(values) => {
-                      setAsigned(values ?? []);
-                    }}
-                  >
-                    <Label>Assigned</Label>
+                {alert && <ErrorMessage>Please select a valid time</ErrorMessage>}
 
-                    <Select.Trigger>
-                      <Select.Value />
-                      <Select.Indicator />
-                    </Select.Trigger>
+                <div className={styles.containerDate}>
+                  <DatePicker value={selected} onChange={setSelected} />
+                </div>
 
-                    <Select.Popover>
-                      <ListBox selectionMode="multiple">
-                        {members.map((member) => (
-                          <ListBox.Item
-                            key={member.id}
-                            id={member.id}
-                            textValue={member.nombre}
-                          >
-                            {member.nombre}
-                            <ListBox.ItemIndicator />
-                          </ListBox.Item>
-                        ))}
-                      </ListBox>
-                    </Select.Popover>
-                  </Select>
-                  <div className="flex checkboxContainer">
-                    <CheckboxGroup
-                      value={category}
-                      onChange={setCategory}
-                      className={styles.containerCheckbox}
-                    >
-                      <Checkbox value="event">
-                        Event
-                        <Checkbox.Control>
-                          <Checkbox.Indicator />
-                        </Checkbox.Control>
-                      </Checkbox>
-                      <Checkbox value="task">
-                        Task
-                        <Checkbox.Control>
-                          <Checkbox.Indicator />
-                        </Checkbox.Control>
-                      </Checkbox>
-                    </CheckboxGroup>
+                <Input
+                  placeholder="Task"
+                  value={task}
+                  onChange={(e) => setTask(e.target.value)}
+                />
 
-                  </div>
+                <TextArea
+                  placeholder="Describe your task"
+                  value={descriptionTask}
+                  onChange={(e) => setDescritpionTask(e.target.value)}
+                />
 
-                  <div className="flex items-center justify-between">
-                    <p>Color:</p>
-                    <RadioGroup
-                      orientation="horizontal"
-                      value={color}
-                      onChange={setColor}
-                    >
-                      {Object.entries(categoryColors).map(([key, c]) => (
-                        <Radio key={key} value={c}>
-                          <Radio.Control
-                            style={{
-                              backgroundColor: c,
-                              width: 19,
-                              height: 19,
-                              borderRadius: "50%",
-                            }}
-                          />
-                        </Radio>
+                <Select
+                  className="w-[256px]"
+                  selectionMode="multiple"
+                  placeholder="Select assigned"
+                  value={asigned}
+                  onChange={(values) => setAsigned(values ?? [])}
+                >
+                  <Label>Assigned</Label>
+                  <Select.Trigger>
+                    <Select.Value />
+                    <Select.Indicator />
+                  </Select.Trigger>
+
+                  <Select.Popover>
+                    <ListBox selectionMode="multiple">
+                      {members.map((member) => (
+                        <ListBox.Item
+                          key={member.id}
+                          id={member.id}
+                          textValue={member.nombre}
+                        >
+                          {member.nombre}
+                          <ListBox.ItemIndicator />
+                        </ListBox.Item>
                       ))}
-                    </RadioGroup>
-                    <div
-                      className={styles.boxColor}
-                      style={{ backgroundColor: color }}
-                    />
-                  </div>
+                    </ListBox>
+                  </Select.Popover>
+                </Select>
+
+                <CheckboxGroup
+                  value={category}
+                  onChange={setCategory}
+                  className={styles.containerCheckbox}
+                >
+                  <Checkbox value="event">
+                    Event
+                    <Checkbox.Control>
+                      <Checkbox.Indicator />
+                    </Checkbox.Control>
+                  </Checkbox>
+
+                  <Checkbox value="task">
+                    Task
+                    <Checkbox.Control>
+                      <Checkbox.Indicator />
+                    </Checkbox.Control>
+                  </Checkbox>
+                </CheckboxGroup>
+
+                <DiscussionTopics
+                  category={category}
+                  topics={topics}
+                  setTopics={setTopics}
+                  categoryColors={categoryColors}
+                />
+
+                <div className="flex items-center justify-between">
+                  <p>Color:</p>
+
+                  <RadioGroup
+                    orientation="horizontal"
+                    value={color}
+                    onChange={setColor}
+                  >
+                    {Object.entries(categoryColors).map(([key, c]) => (
+                      <Radio key={key} value={c}>
+                        <Radio.Control
+                          style={{
+                            backgroundColor: c,
+                            width: 19,
+                            height: 19,
+                            borderRadius: "50%",
+                          }}
+                        />
+                      </Radio>
+                    ))}
+                  </RadioGroup>
+
+                  <div
+                    className={styles.boxColor}
+                    style={{ backgroundColor: color }}
+                  />
                 </div>
               </Surface>
             </Modal.Body>

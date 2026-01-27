@@ -1,0 +1,73 @@
+.container {
+    width: 100%;
+    min-height: 90vh;
+}
+
+.containerHeader {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.containerTitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    gap: 10px;
+}
+
+.containerAvatar {
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.containerCardTask {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.containerPlan {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    font-family: var(--font-poppins);
+    font-size: 22px;
+    font-weight: 700;
+    color: black;
+}
+
+.title {
+    font-family: var(--font-poppins);
+    font-weight: 800;
+    color: black;
+    font-size: 22px;
+}
+
+.task {
+    background-color:aqua;
+    max-width: 100%;
+    padding: 25px;
+    border-radius: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.timeTask {
+    background-color: black;
+    padding: 10px;
+    max-width: fit-content;
+    border-radius: 30px;
+}
+
+.contain {
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+}

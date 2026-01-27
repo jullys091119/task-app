@@ -1,7 +1,7 @@
 "use client";
 import { useContext, useState } from "react";
 import { AppContext } from "../../../AppContext";;
-import { Label, ListBox, Separator, Popover } from "@heroui/react";
+import {Popover } from "@heroui/react";
 import { SquareChartBar, Video, BarsAscendingAlignLeftArrowDown } from '@gravity-ui/icons';
 
 export function ListFilterTask() {
